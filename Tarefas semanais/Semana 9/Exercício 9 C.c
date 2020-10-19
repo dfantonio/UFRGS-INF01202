@@ -5,9 +5,9 @@
 int pares(int matriz[3][2])
 {
   float verdade = 0;
-  if (matriz[3][0] > matriz[1][0] && matriz[3][0] < matriz[2][0] && matriz[3][1] > matriz[1][1] && matriz[3][1] < matriz[2][1])
+  if (matriz[2][0] > matriz[0][0] && matriz[2][0] < matriz[1][0] && matriz[2][1] > matriz[0][1] && matriz[2][1] < matriz[1][1])
   {
-    verdade += 1;
+    verdade = 1;
   }
   return (verdade);
 }
@@ -15,14 +15,12 @@ int pares(int matriz[3][2])
 int main()
 {
   int pos[3][2];
-  float vdd = 0;
   for (int linhas = 0; linhas < 3; linhas++)
   {
     printf("Digite o par ordenado do %dº ponto: ", linhas + 1);
     scanf("%d %d", &pos[linhas][0], &pos[linhas][1]);
   }
-  vdd = pares(pos);
-  if (vdd = 1)
+  if (pares(pos) == 1)
   {
     printf("O 3º ponto está dentro do retângulo.");
   }

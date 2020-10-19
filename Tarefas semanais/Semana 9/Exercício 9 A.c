@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-float decimal(int hr, int min, int seg)
+float decimal(int hr, int min, float seg)
 {
   float res;
   if (hr > 23 || min > 59 || seg > 59)

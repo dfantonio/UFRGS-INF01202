@@ -2,35 +2,23 @@
 #include <stdlib.h>
 #include <time.h>
 
-int menor2(int a, int b) {
-  int menor;
-  if (a < b) {
-    menor = a;
-  } else {
-    menor = b;
-  }
-  return (menor);
+int menor2(int a, int b)
+{
+  return (a < b) ? a : b;
 }
-int menor3(int menor, int c) {
-  int menor1;
-  if (menor < c) {
-    menor1 = menor;
-  } else {
-    menor1 = c;
-  }
-  return (menor1);
+int menor3(int a, int b, int c)
+{
+  return (menor2(a, b) < c) ? menor2 : c;
 }
 
-int main() {
-  int a, b, c, x, y; //x=menor2 | y=menor3
+int main()
+{
+  int a, b, c;
   printf("Digite o 1º número: ");
   scanf("%d", &a);
   printf("Digite o 2º número: ");
   scanf("%d", &b);
   printf("Digite o 3º número: ");
   scanf("%d", &c);
-
-  x = menor2(a, b);
-  y = menor3(x, c);
-  printf("%d", y);
+  printf("%d", menor3(a, b, c));
 }
