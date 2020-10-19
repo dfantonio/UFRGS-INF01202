@@ -17,5 +17,5 @@ int main() {
   scanf("%d", &b);
   printf("Digite o 3º número: ");
   scanf("%d", &c);
-  printf("%d", menor3(a, b, c));
+  printf("O menor número é: %d", menor3(a, b, c));
 }
