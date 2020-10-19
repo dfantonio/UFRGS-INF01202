@@ -4,11 +4,11 @@
 
 float decimal(int hr, int min, float seg) {
   float res;
-  if (hr > 23 || min > 59 || seg > 59) {
-    res = -1;
-  } else {
+  if ((hr >= 0 && min >= 0 && seg >= 0) && (hr < 24 && min < 60 && seg < 60))
     res = (hr * 60) + min + (seg / 60);
-  }
+  else
+    res = -1;
+
   return (res);
 }
 
@@ -22,10 +22,7 @@ int main() {
   printf("Digite seg: ");
   scanf("%d", &seg);
   res = decimal(hr, min, seg);
-  if (res == -1) {
-    printf("Horário inválido", res);
-  } else {
+  if (res == -1) printf("Horário inválido", res);
+  else
     printf("%.2f", res);
-  }
-  return 0;
 }
