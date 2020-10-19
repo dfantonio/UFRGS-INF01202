@@ -2,17 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 
-int menor2(int a, int b)
-{
+int menor2(int a, int b) {
   return (a < b) ? a : b;
 }
-int menor3(int a, int b, int c)
-{
-  return (menor2(a, b) < c) ? menor2 : c;
+int menor3(int a, int b, int c) {
+  return (menor2(a, b) < c) ? menor2(a, b) : c;
 }
 
-int main()
-{
+int main() {
   int a, b, c;
   printf("Digite o 1º número: ");
   scanf("%d", &a);
