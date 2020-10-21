@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int pares(int matriz[3][2]) {
-  if (matriz[2][0] > matriz[0][0] && matriz[2][0] < matriz[1][0] && matriz[2][1] > matriz[0][1] && matriz[2][1] < matriz[1][1]) return 1;
+  if (matriz[2][0] >= matriz[0][0] && matriz[2][0] <= matriz[1][0] && matriz[2][1] >= matriz[0][1] && matriz[2][1] <= matriz[1][1]) return 1;
   return 0;
 }
 
