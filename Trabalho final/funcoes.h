@@ -1,8 +1,7 @@
 #include "rlutil.h"
-
-int teste() {
-  return 10;
-}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define Q_ES 218 // Quina esquerda superior
 #define Q_EI 192 // Quina esquerda inferior
@@ -14,7 +13,7 @@ int teste() {
 void setup() {
   hidecursor();
   saveDefaultColor();
-  setBackgroundColor(2);
+  // setBackgroundColor(2);
   // system("color c2"); //Pode ser uma alternativa para colorir todo o fundo
 }
 
