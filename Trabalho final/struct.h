@@ -14,10 +14,11 @@ typedef struct carta {
 
 typedef struct jogo {
   Carta estoque[52];
-  Carta descarte[28];
+  Carta descarte[24];
   Carta tableau[19][7];
   Carta funcadao[13][4];
   char jogador[30];
   int score;
+  int telaAtual;
 } Jogo;
 #endif
