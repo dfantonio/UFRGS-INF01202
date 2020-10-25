@@ -4,11 +4,9 @@
 
 // Função para debug que printa todo o tableau
 void printaTableau(Jogo *jogo) {
-  for (int i = 0; i < 7; i++) {
+  for (int row = 0; row < 19; row++) {
     for (int col = 0; col < 7; col++) {
-      if (i > col) printf("\t");
-      else
-        printf("%02d\t", jogo->tableau[i][col].numero);
+      printf("%d %d %d\t", jogo->tableau[row][col].numero, jogo->tableau[row][col].naipe, jogo->tableau[row][col].visivel);
     }
     printf("\n");
   }
