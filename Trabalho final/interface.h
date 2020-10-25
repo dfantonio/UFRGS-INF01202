@@ -42,6 +42,7 @@ void rodaJogo(Jogo *jogo) {
 
     case TELA_JOGO:
       printf("to no jogo\n");
+      criaInterfaceMesa(jogo);
       break;
 
     case TELA_LEADERBOARD:
@@ -52,6 +53,85 @@ void rodaJogo(Jogo *jogo) {
       break;
     }
   }
+}
+
+void criaQuadrado(int x, int y) {
+  cls();
+  printf("%c", Q_ES);
+  for (int i = 0; i < (x - 2); i++)
+    printf("%c", T_HO);
+  printf("%c", Q_DS);
+  for (int i = 2; i < y; i++) {
+    gotoxy(1, i);
+    printf("%c", T_VE);
+    gotoxy(x, i);
+    printf("%c\n", T_VE);
+  }
+
+  printf("%c", Q_EI);
+  for (int i = 0; i < (x - 2); i++)
+    printf("%c", T_HO);
+  printf("%c", Q_DI);
+}
+
+void aplicaLabels(Jogo *jogo) {
+  gotoxy(4, 3);
+  printf("Jogador: %s", jogo->jogador);
+  gotoxy(120, 3);
+  printf("Score: %d", jogo->score);
+
+  gotoxy(4, 5);
+  printf("Estoque");
+  gotoxy(15, 5);
+  printf("Descarte");
+  gotoxy(35, 5);
+  printf("Fundacao");
+
+  gotoxy(4, 8);
+  printf("Tableau");
+}
+
+int getCorCarta(int naipe) {
+  return naipe % 2 ? RED : BLACK;
+}
+
+char getNaipeCarta(int naipe) {
+  switch (naipe) {
+  case COPAS:
+    return 3;
+
+  case PAUS:
+    return 5;
+
+  case OUROS:
+    return 4;
+
+  case ESPADAS:
+    return 6;
+  }
+}
+
+void renderizaCarta(Carta *carta, int x, int y) {
+  if (carta->visivel) {
+    gotoxy(x, y);
+    setColor(getCorCarta(carta->naipe));
+    setBackgroundColor(WHITE);
+    if (carta->numero < 10) printf(" "); // Pra deixar a largura igual com cartas de 1 ou 2 caracteres
+    printf(" %d %c  ", carta->numero, getNaipeCarta(carta->naipe));
+  } else {
+    gotoxy(x, y);
+    setColor(WHITE);
+    setBackgroundColor(BLUE);
+  }
+  resetColor();
+}
+
+void renderizaTableau(Jogo *jogo) {
+}
+
+void criaInterfaceMesa(Jogo *jogo) {
+  criaQuadrado(150, 30);
+  aplicaLabels(jogo);
 }
 
 void printMenuOption(char *texto, int startX, int startY) {
