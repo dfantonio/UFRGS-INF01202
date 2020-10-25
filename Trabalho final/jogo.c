@@ -14,13 +14,7 @@ int main() {
   setup(&jogo);
   criaInterfaceMesa(&jogo);
 
-  Carta carta;
-  carta.numero = 13;
-  carta.naipe = 1;
-  carta.visivel = true;
-  renderizaCarta(&carta, 4, 15);
+  renderizaTableau(&jogo);
 
-  carta.numero = 2;
-  renderizaCarta(&carta, 4, 17);
   // rodaJogo(&jogo);
 }

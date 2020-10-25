@@ -127,6 +127,11 @@ void renderizaCarta(Carta *carta, int x, int y) {
 }
 
 void renderizaTableau(Jogo *jogo) {
+  for (int i = 0; i < 19; i++)
+    for (int j = 0; j < 7; j++) {
+      if (jogo->tableau[i][j].numero != 0)
+        renderizaCarta(&jogo->tableau[i][j], 4 + i, 9 + (6 * j));
+    }
 }
 
 void criaInterfaceMesa(Jogo *jogo) {
