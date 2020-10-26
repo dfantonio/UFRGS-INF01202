@@ -77,7 +77,7 @@ void criaQuadrado(int x, int y) {
 void aplicaLabels(Jogo *jogo) {
   gotoxy(4, 3);
   printf("Jogador: %s", jogo->jogador);
-  gotoxy(120, 3);
+  gotoxy(55, 3);
   printf("Score: %d", jogo->score);
 
   gotoxy(4, 5);
@@ -122,16 +122,24 @@ void renderizaCarta(Carta *carta, int x, int y) {
     gotoxy(x, y);
     setColor(WHITE);
     setBackgroundColor(BLUE);
+    printf(" -- -- ");
   }
   resetColor();
 }
 
 void renderizaTableau(Jogo *jogo) {
+  for (int i = 0; i < 19; i++) {
+    for (int j = 0; j < 7; j++) {
+      if (jogo->tableau[i][j].numero != 0)
+        renderizaCarta(&jogo->tableau[i][j], 4 + (9 * j), 9 + i);
+    }
+  }
 }
 
 void criaInterfaceMesa(Jogo *jogo) {
-  criaQuadrado(150, 30);
+  criaQuadrado(70, 30);
   aplicaLabels(jogo);
+  renderizaTableau(jogo);
 }
 
 void printMenuOption(char *texto, int startX, int startY) {

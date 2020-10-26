@@ -9,7 +9,5 @@ void setup(Jogo *jogo) {
   jogo->telaAtual = TELA_INICIO;
   hidecursor();
   saveDefaultColor();
-  iniciaCartas(&jogo);
-  // setBackgroundColor(2);
-  // system("color c2"); //Pode ser uma alternativa para colorir todo o fundo
+  iniciaCartas(jogo);
 }

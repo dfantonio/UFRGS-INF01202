@@ -23,6 +23,15 @@ void criaBaralho(Jogo *jogo) {
 }
 
 void distribuiTableau(Jogo *jogo) {
+  //Inicializa todas as posições como inválidas
+  for (int row = 0; row < 19; row++) {
+    for (int col = 0; col < 7; col++) {
+      jogo->tableau[row][col].numero = 0;
+      jogo->tableau[row][col].visivel = true;
+      jogo->tableau[row][col].naipe = 0;
+    }
+  }
+
   int col = 0, linha = 0;
   for (int i = 24; i < 52; i++, linha++) {
     if (linha == (col + 1)) {
