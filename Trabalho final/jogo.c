@@ -12,5 +12,5 @@ int main() {
 
   setup(&jogo);
 
-  rodaJogo(&jogo);
+  renderizaTableau(&jogo);
 }
