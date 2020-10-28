@@ -116,8 +116,28 @@ void renderizaCarta(Carta *carta, int x, int y) {
     gotoxy(x, y);
     setColor(getCorCarta(carta->naipe));
     setBackgroundColor(WHITE);
-    if (carta->numero < 10) printf(" "); // Pra deixar a largura igual com cartas de 1 ou 2 caracteres
-    printf(" %d %c  ", carta->numero, getNaipeCarta(carta->naipe));
+    // if (carta->numero < 10) printf(" "); // Pra deixar a largura igual com cartas de 1 ou 2 caracteres
+    switch (carta->numero) {
+    case (1):
+      printf("  A %c  ", getNaipeCarta(carta->naipe));
+      break;
+    case (10):
+      printf(" 10 %c  ", getNaipeCarta(carta->naipe));
+      break;
+    case (11):
+      printf("  J %c  ", getNaipeCarta(carta->naipe));
+      break;
+    case (12):
+      printf("  Q %c  ", getNaipeCarta(carta->naipe));
+      break;
+    case (13):
+      printf("  K %c  ", getNaipeCarta(carta->naipe));
+      break;
+    default:
+      printf("  %d %c  ", carta->numero, getNaipeCarta(carta->naipe));
+      break;
+    }
+
   } else {
     gotoxy(x, y);
     setColor(WHITE);
