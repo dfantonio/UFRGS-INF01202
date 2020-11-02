@@ -19,11 +19,12 @@ typedef struct carta {
 
 typedef struct jogo {
   Carta estoque[52];
-  Carta descarte[24];
+  Carta descarte[25]; //inicialmente tem a posição vazia por isso 25
   Carta tableau[19][7];
   Carta funcadao[13][4];
   char jogador[30];
   int score;
   int telaAtual;
+  int pos_estoque; // posição do estoque
 } Jogo;
 #endif

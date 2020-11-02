@@ -156,6 +156,26 @@ void renderizaTableau(Jogo *jogo) {
   }
 }
 
+void renderizaEstoque(Jogo *jogo) {
+  while (jogo->descarte[jogo->pos_estoque].numero == 0 && jogo->pos_estoque > 0) { // cartas removidas tem valor 0, e são puladas. menos a posição inicial que também é 0
+    jogo->pos_estoque++;
+  }
+  int pos_descarte = jogo->pos_estoque;
+  jogo->descarte[jogo->pos_estoque].visivel = FALSE; // na posição inicial o descarte é invisivel
+  if (jogo->pos_estoque >= 24) {                     // quando chega na posição 24 ou maior ele reseta para posiçao inicial
+    jogo->pos_estoque = 0;
+    pos_descarte = 24;
+    jogo->descarte[24].visivel = TRUE;
+  } else if (jogo->pos_estoque < 24 && pos_descarte > 0) {
+    jogo->descarte[jogo->pos_estoque].visivel = TRUE;
+  }
+  jogo->estoque[jogo->pos_estoque].visivel = TRUE;         // estoque é uma pilha de cartas virada pra baixo (TRUE só pra testar)
+  renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 7); // renderiza o estoque atualizado
+  renderizaCarta(&jogo->descarte[pos_descarte], 13, 7);    // renderiza o descarte atualizado
+  if (pos_descarte == 24)                                  // quando o baralho reseta o descarte fica "vazios"
+    jogo->pos_estoque = -1;
+}
+
 void criaInterfaceMesa(Jogo *jogo) {
   criaQuadrado(70, 30);
   aplicaLabels(jogo);
