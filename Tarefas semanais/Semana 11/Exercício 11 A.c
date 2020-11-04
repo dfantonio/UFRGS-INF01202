@@ -7,7 +7,7 @@ typedef struct {
   int pontuacao;
 } Pessoas;
 
-int bubblesort(Pessoas jogador[PESSOAS]) {
+void bubblesort(Pessoas jogador[PESSOAS]) {
   int true = 1;
   Pessoas temp;
   do {
