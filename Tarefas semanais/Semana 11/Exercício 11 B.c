@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #define CARTAS 52
-#define NAIPES 4
+#define NAIPES 4 // 1 = Copas, 2 = Ouros, 3 = Paus, 4 = Espadas
 #define VALOR  13
 
 typedef struct carta {
@@ -20,8 +20,8 @@ void inicializa_baralho(Carta baralho[CARTAS]) {
 void imprime_baralho(Carta baralho[CARTAS], int quant) {
   printf("Cartas: ");
   for (int i = 0; i < quant; i++) {
-    printf("\n%d ", baralho[rand() % (CARTAS + 1)].numero);
-    switch (baralho[i].naipe) {
+    printf("\n%d ", baralho[rand() % CARTAS].numero);
+    switch (baralho[rand() % CARTAS].naipe) {
     case 1:
       printf("de Copas");
       break;
