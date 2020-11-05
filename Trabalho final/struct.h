@@ -7,6 +7,14 @@
 #define OUROS   3
 #define ESPADAS 4
 
+#define TAM_ESTOQUE    52
+#define TAM_DESCARTE   25
+#define TAM_TABLEAU_L  19
+#define TAM_TABLEAU_C  7
+#define TAM_FUNDACAO_L 13
+#define TAM_FUNDACAO_C 4
+#define TAM_JOGADOR    30
+
 /**
  * Por definição quando o número da carta for 0 significa que aquela posição 
  * está vazia e deve ser ignorada
@@ -18,11 +26,11 @@ typedef struct carta {
 } Carta;
 
 typedef struct jogo {
-  Carta estoque[52];
-  Carta descarte[25]; //inicialmente tem a posição vazia por isso 25
-  Carta tableau[19][7];
-  Carta funcadao[13][4];
-  char jogador[30];
+  Carta estoque[TAM_ESTOQUE];
+  Carta descarte[TAM_DESCARTE];
+  Carta tableau[TAM_TABLEAU_L][TAM_TABLEAU_C];
+  Carta fundacao[TAM_FUNDACAO_C][TAM_FUNDACAO_L];
+  char jogador[TAM_JOGADOR];
   int score;
   int telaAtual;
   int pos_estoque; // posição do estoque
