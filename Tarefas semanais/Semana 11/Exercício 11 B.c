@@ -18,10 +18,10 @@ void inicializa_baralho(Carta baralho[CARTAS]) {
 }
 
 void imprime_baralho(Carta baralho[CARTAS], int quant) {
-  printf("Cartas: ");
+  printf("Cartas: \n");
   for (int i = 0; i < quant; i++) {
-    printf("\n%d ", baralho[rand() % CARTAS].numero);
-    switch (baralho[rand() % CARTAS].naipe) {
+    printf("\n%d ", baralho[i].numero);
+    switch (baralho[i].naipe) {
     case 1:
       printf("de Copas");
       break;
@@ -42,7 +42,7 @@ int main() {
   srand(time(NULL));
   Carta baralho[52];
   int quant;
-  quant = rand() % (CARTAS + 1);
+  quant = CARTAS;
   inicializa_baralho(baralho);
   imprime_baralho(baralho, quant);
 }
