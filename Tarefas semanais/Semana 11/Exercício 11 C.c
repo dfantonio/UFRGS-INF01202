@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #define CARTAS 52
 #define NAIPES 4 // 1 = Copas, 2 = Ouros, 3 = Paus, 4 = Espadas
 #define VALOR  13
@@ -19,7 +18,7 @@ void inicializa_baralho(Carta baralho[CARTAS]) {
 
 void verifica_baralho(Carta baralho[CARTAS], Carta *pbaralho[CARTAS], int num) {
   int aux = 0;
-  for (int i = 0; i < CARTAS; i++) {
+  for (int i = 0; i < num; i++) {
     if (baralho[i].numero % 2 == 0 && baralho[i].naipe == 1) {
       pbaralho[aux] = &baralho[i];
       aux++;
@@ -28,13 +27,12 @@ void verifica_baralho(Carta baralho[CARTAS], Carta *pbaralho[CARTAS], int num) {
 }
 
 int main() {
-  srand(time(NULL));
   Carta *pbaralho[CARTAS] = {NULL};
   Carta baralho[CARTAS];
   inicializa_baralho(baralho);
   verifica_baralho(baralho, &pbaralho, CARTAS);
   for (int i = 0; i < 52; i++) {
-    if (pbaralho[i]->numero > 0) {
+    if (pbaralho[i] != NULL) {
       printf("Carta: %d ", pbaralho[i]->numero);
       if (pbaralho[i]->naipe == 1) {
         printf("de Copas\n");
