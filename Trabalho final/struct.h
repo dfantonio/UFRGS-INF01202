@@ -8,7 +8,7 @@
 #define ESPADAS 4
 
 #define TAM_ESTOQUE    52
-#define TAM_DESCARTE   24
+#define TAM_DESCARTE   25
 #define TAM_TABLEAU_L  19
 #define TAM_TABLEAU_C  7
 #define TAM_FUNDACAO_L 13
@@ -33,5 +33,6 @@ typedef struct jogo {
   char jogador[TAM_JOGADOR];
   int score;
   int telaAtual;
+  int pos_estoque; // posição do estoque
 } Jogo;
 #endif

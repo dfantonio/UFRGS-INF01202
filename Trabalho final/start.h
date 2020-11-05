@@ -12,6 +12,9 @@ void embaralha(Jogo *jogo) {
     jogo->estoque[random] = jogo->estoque[i];
     jogo->estoque[i] = t;
   }
+  for (int i = 0; i < 24; i++)
+    jogo->descarte[i + 1] = jogo->estoque[i]; // posição 0 não tem carta
+  jogo->descarte[0].visivel = FALSE;          // posição inicial é vazia
 }
 
 void criaBaralho(Jogo *jogo) {
