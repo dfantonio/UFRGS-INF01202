@@ -25,11 +25,17 @@ typedef struct carta {
   bool visivel;
 } Carta;
 
+typedef struct cursor {
+  int x;
+  int y;
+} Cursor;
+
 typedef struct jogo {
   Carta estoque[TAM_ESTOQUE];
   Carta descarte[TAM_DESCARTE];
   Carta tableau[TAM_TABLEAU_L][TAM_TABLEAU_C];
-  Carta fundacao[TAM_FUNDACAO_C][TAM_FUNDACAO_L];
+  Carta fundacao[TAM_FUNDACAO_L][TAM_FUNDACAO_C];
+  Cursor cursor;
   char jogador[TAM_JOGADOR];
   int score;
   int telaAtual;

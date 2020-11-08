@@ -4,7 +4,8 @@
 #include <time.h>
 
 void embaralha(Jogo *jogo) {
-  srand(time(NULL));
+  // srand(time(NULL));
+  srand(0);
   int random;
   for (int i = 0; i < 52; i++) {
     random = (rand() % 52);
@@ -45,8 +46,19 @@ void distribuiTableau(Jogo *jogo) {
   jogo->tableau[6][6].visivel = true;
 }
 
+void zeraFundacao(Jogo *jogo) {
+  Carta carta;
+  carta.numero = 0;
+  for (int col = 0; col < TAM_FUNDACAO_C; col++) {
+    for (int linha = 0; linha < TAM_FUNDACAO_L; linha++) {
+      jogo->fundacao[linha][col] = carta;
+    }
+  }
+}
+
 void iniciaCartas(Jogo *jogo) {
   criaBaralho(jogo);
   embaralha(jogo);
   distribuiTableau(jogo);
+  zeraFundacao(jogo);
 }

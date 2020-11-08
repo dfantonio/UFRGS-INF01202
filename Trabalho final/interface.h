@@ -20,17 +20,14 @@
 #define T_HO 196 // Traço horizontal
 #define T_VE 179 // Traço vertical
 
-// Exemplo de função que muda de acordo com o sistema operacional
-static void _interface_limpa_tela(void) {
-#ifdef OS_Windows
-  /* Windows code */
-  system("cls");
-#else
-  /* GNU/Linux code */
-  system("clear");
-#endif
-  puts("");
-}
+#define CIMA     'w'
+#define BAIXO    's'
+#define DIREITA  'd'
+#define ESQUERDA 'a'
+
+#define Y_INFORMACOES_JOGADOR 3
+#define Y_CABECALHOS          6
+#define Y_TABLEAU             9
 
 void rodaJogo(Jogo *jogo) {
   while (1) {
@@ -55,16 +52,78 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
+/**
+ * Função que verifica se a movimentação do cursor é válida e faz alguns
+ * tratamentos para casos especiais
+ */
+void movimentaCursor(Jogo *jogo, int x, int y) {
+  int curX = jogo->cursor.x;
+  int curY = jogo->cursor.y;
+
+  if ((curX + x) < 0 || (curY + y) < 0 || (curX + x) > 6) return; // Se o movimento for inválido não faz nada
+
+  //Movimentos especiais do estoque || Descarte || Fundacao
+  if (curY == 0) {
+    if ((curX + x) > 5) return;                      // Se tentar mover o curso para a direita além da mesa
+    if ((curX + x) == 1 && jogo->pos_estoque == 0) { // Caso o estoque esteja vazio o cursor pula essa posição
+      if (x > 0) x++;
+      else
+        x--;
+    }
+    if ((curY + y) > 0 && curX > 1) x++;
+  }
+
+  //Movimentos especiais do tableau
+  if (curY > 0) {
+    curY--; //Normaliza a posição Y para que comece no 0
+
+    if ((curY + y) > curY) { //Movimento para baixo
+      if (jogo->tableau[curY + 1][curX].numero == 0) return;
+    }
+
+    if ((curX + x) < curX) { //Movimento para esquerda
+      if (jogo->tableau[curY][curX - 1].numero == 0) y--;
+    }
+
+    if ((curY + y) < curY) { //Movimento para cima
+      if ((curY + y + 1) == 0 && curX > 1) x--;
+    }
+  }
+
+  jogo->cursor.x += x;
+  jogo->cursor.y += y;
+}
+
 void renderizaMesa(Jogo *jogo) {
   while (1) {
     if (kbhit()) {
       char k = getkey();
-      if (k == 'q') exit(0);
-      if (k == 'a') jogo->pos_estoque++; // inteiro que muda aa posição do estoque a ser renderizado
+      switch (k) {
+      case 'q':
+        exit(0);
+        break;
+      case ' ':
+        jogo->pos_estoque++; // inteiro que muda aa posição do estoque a ser renderizado
+        break;
+      case DIREITA:
+        movimentaCursor(jogo, 1, 0);
+        break;
+      case ESQUERDA:
+        movimentaCursor(jogo, -1, 0);
+        break;
+      case CIMA:
+        movimentaCursor(jogo, 0, -1);
+        break;
+      case BAIXO:
+        movimentaCursor(jogo, 0, 1);
+        break;
+
+      default:
+        break;
+      }
 
       cls();
       criaInterfaceMesa(jogo);
-      printf("estoque: %d", jogo->pos_estoque);
     }
   }
 }
@@ -88,16 +147,16 @@ void criaQuadrado(int x, int y) {
 }
 
 void aplicaLabels(Jogo *jogo) {
-  gotoxy(4, 3);
+  gotoxy(4, Y_INFORMACOES_JOGADOR);
   printf("Jogador: %s", jogo->jogador);
-  gotoxy(55, 3);
+  gotoxy(54, Y_INFORMACOES_JOGADOR);
   printf("Score: %d", jogo->score);
 
-  gotoxy(4, 5);
+  gotoxy(4, Y_CABECALHOS - 1);
   printf("Estoque");
-  gotoxy(15, 5);
+  gotoxy(14, Y_CABECALHOS - 1);
   printf("Descarte");
-  gotoxy(35, 5);
+  gotoxy(34, Y_CABECALHOS - 1);
   printf("Fundacao");
 
   gotoxy(4, 8);
@@ -161,10 +220,10 @@ void renderizaCarta(Carta *carta, int x, int y) {
 }
 
 void renderizaTableau(Jogo *jogo) {
-  for (int i = 0; i < 19; i++) {
-    for (int j = 0; j < 7; j++) {
+  for (int i = 0; i < TAM_TABLEAU_L; i++) {
+    for (int j = 0; j < TAM_TABLEAU_C; j++) {
       if (jogo->tableau[i][j].numero != 0)
-        renderizaCarta(&jogo->tableau[i][j], 4 + (9 * j), 9 + i);
+        renderizaCarta(&jogo->tableau[i][j], 4 + (10 * j), 9 + i);
     }
   }
 }
@@ -185,14 +244,54 @@ void renderizaEstoque(Jogo *jogo) {
   }
 
   if (jogo->pos_estoque != 24) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
-  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 15, 6);                   // renderiza o descarte atualizado
+  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                   // renderiza o descarte atualizado
+}
+
+void renderizaFundacao(Jogo *jogo) {
+  int index;
+  for (int col = 0; col < TAM_FUNDACAO_C; col++) {
+    index = -1;
+    for (int linha = 0; linha < TAM_FUNDACAO_L; linha++) {
+      if (jogo->fundacao[linha][col].numero) {
+        index = linha;
+      };
+    }
+    if (index >= 0)
+      renderizaCarta(&jogo->fundacao[index][col], 34 + (col * 10), Y_CABECALHOS);
+    else {
+      gotoxy(34 + (col * 10), Y_CABECALHOS);
+      printf("-------");
+    }
+  }
+}
+
+void renderizaCursor(Jogo *jogo) {
+  int x = jogo->cursor.x;
+  int y = jogo->cursor.y;
+  if (y == 0) {
+    switch (x) {
+    case 0:
+    case 1:
+      gotoxy(2 + 10 * x, Y_CABECALHOS);
+      break;
+    default:
+      gotoxy(2 + 10 + 10 * x, Y_CABECALHOS);
+      break;
+    }
+    printf(">");
+    return;
+  }
+  gotoxy(2 + 10 * x, Y_TABLEAU + y - 1);
+  printf(">");
 }
 
 void criaInterfaceMesa(Jogo *jogo) {
-  criaQuadrado(70, 30);
+  criaQuadrado(74, 30);
   aplicaLabels(jogo);
   renderizaTableau(jogo);
   renderizaEstoque(jogo);
+  renderizaFundacao(jogo);
+  renderizaCursor(jogo);
 }
 
 void printMenuOption(char *texto, int startX, int startY) {

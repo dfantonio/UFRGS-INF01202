@@ -7,12 +7,6 @@
 int main() {
   Jogo jogo;
   setup(&jogo);
-
-  jogo.telaAtual = TELA_JOGO;
-  //renderiza o estado inicial do jogo
-
+  debugMode(&jogo);
   rodaJogo(&jogo);
-
-  renderizaEstoque(&jogo);
-  renderizaTableau(&jogo);
 }
