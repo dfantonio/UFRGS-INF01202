@@ -41,8 +41,8 @@ void rodaJogo(Jogo *jogo) {
       break;
 
     case TELA_JOGO:
-      printf("to no jogo\n");
       criaInterfaceMesa(jogo);
+      renderizaMesa(jogo);
       break;
 
     case TELA_LEADERBOARD:
@@ -55,8 +55,21 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
+void renderizaMesa(Jogo *jogo) {
+  while (1) {
+    if (kbhit()) {
+      char k = getkey();
+      if (k == 'q') exit(0);
+      if (k == 'a') jogo->pos_estoque++; // inteiro que muda aa posição do estoque a ser renderizado
+
+      cls();
+      criaInterfaceMesa(jogo);
+      printf("estoque: %d", jogo->pos_estoque);
+    }
+  }
+}
+
 void criaQuadrado(int x, int y) {
-  cls();
   printf("%c", Q_ES);
   for (int i = 0; i < (x - 2); i++)
     printf("%c", T_HO);
@@ -157,29 +170,29 @@ void renderizaTableau(Jogo *jogo) {
 }
 
 void renderizaEstoque(Jogo *jogo) {
-  while (jogo->descarte[jogo->pos_estoque].numero == 0 && jogo->pos_estoque > 0) { // cartas removidas tem valor 0, e são puladas. menos a posição inicial que também é 0
+  int descarte = jogo->pos_estoque - 1;
+
+  while (jogo->estoque[descarte].numero == 0 && jogo->pos_estoque > 0 && jogo->pos_estoque <= 24) { // cartas removidas tem valor 0, e são puladas. menos a posição inicial que também é 0
     jogo->pos_estoque++;
+    descarte++;
   }
-  int pos_descarte = jogo->pos_estoque;
-  jogo->descarte[jogo->pos_estoque].visivel = FALSE; // na posição inicial o descarte é invisivel
-  if (jogo->pos_estoque >= 24) {                     // quando chega na posição 24 ou maior ele reseta para posiçao inicial
+  if (descarte >= 0) jogo->estoque[descarte].visivel = true; // Toda carta no descarte deve estar visível
+  jogo->estoque[jogo->pos_estoque].visivel = true;           // estoque é uma pilha de cartas virada pra baixo (false só pra testar)
+
+  if (jogo->pos_estoque > 24) { // quando chega na posição 25 ou maior ele volta para o começo
     jogo->pos_estoque = 0;
-    pos_descarte = 24;
-    jogo->descarte[24].visivel = TRUE;
-  } else if (jogo->pos_estoque < 24 && pos_descarte > 0) {
-    jogo->descarte[jogo->pos_estoque].visivel = TRUE;
+    descarte = -1;
   }
-  jogo->estoque[jogo->pos_estoque].visivel = TRUE;         // estoque é uma pilha de cartas virada pra baixo (TRUE só pra testar)
-  renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 7); // renderiza o estoque atualizado
-  renderizaCarta(&jogo->descarte[pos_descarte], 13, 7);    // renderiza o descarte atualizado
-  if (pos_descarte == 24)                                  // quando o baralho reseta o descarte fica "vazios"
-    jogo->pos_estoque = -1;
+
+  if (jogo->pos_estoque != 24) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
+  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 15, 6);                   // renderiza o descarte atualizado
 }
 
 void criaInterfaceMesa(Jogo *jogo) {
   criaQuadrado(70, 30);
   aplicaLabels(jogo);
   renderizaTableau(jogo);
+  renderizaEstoque(jogo);
 }
 
 void printMenuOption(char *texto, int startX, int startY) {
