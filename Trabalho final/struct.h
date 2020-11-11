@@ -36,6 +36,7 @@ typedef struct jogo {
   Carta tableau[TAM_TABLEAU_L][TAM_TABLEAU_C];
   Carta fundacao[TAM_FUNDACAO_L][TAM_FUNDACAO_C];
   Cursor cursor;
+  Cursor pos_inicial;
   char jogador[TAM_JOGADOR];
   int score;
   int telaAtual;

@@ -11,6 +11,8 @@ void setup(Jogo *jogo) {
   jogo->cursor.x = 0;
   jogo->cursor.y = 0;
   jogo->score = 0;
+  jogo->pos_inicial.x = 0;
+  jogo->pos_inicial.y = 0;
   cls();
   hidecursor();
   saveDefaultColor();
