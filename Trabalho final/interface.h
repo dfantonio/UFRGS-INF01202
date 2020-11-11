@@ -2,6 +2,7 @@
 
 #include "rlutil.h"
 #include "struct.h"
+#include "validate.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,48 +53,6 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
-/**
- * Função que verifica se a movimentação do cursor é válida e faz alguns
- * tratamentos para casos especiais
- */
-void movimentaCursor(Jogo *jogo, int x, int y) {
-  int curX = jogo->cursor.x;
-  int curY = jogo->cursor.y;
-
-  if ((curX + x) < 0 || (curY + y) < 0 || (curX + x) > 6) return; // Se o movimento for inválido não faz nada
-
-  //Movimentos especiais do estoque || Descarte || Fundacao
-  if (curY == 0) {
-    if ((curX + x) > 5) return;                      // Se tentar mover o curso para a direita além da mesa
-    if ((curX + x) == 1 && jogo->pos_estoque == 0) { // Caso o estoque esteja vazio o cursor pula essa posição
-      if (x > 0) x++;
-      else
-        x--;
-    }
-    if ((curY + y) > 0 && curX > 1) x++;
-  }
-
-  //Movimentos especiais do tableau
-  if (curY > 0) {
-    curY--; //Normaliza a posição Y para que comece no 0
-
-    if ((curY + y) > curY) { //Movimento para baixo
-      if (jogo->tableau[curY + 1][curX].numero == 0) return;
-    }
-
-    if ((curX + x) < curX) { //Movimento para esquerda
-      if (jogo->tableau[curY][curX - 1].numero == 0) y--;
-    }
-
-    if ((curY + y) < curY) { //Movimento para cima
-      if ((curY + y + 1) == 0 && curX > 1) x--;
-    }
-  }
-
-  jogo->cursor.x += x;
-  jogo->cursor.y += y;
-}
-
 void renderizaMesa(Jogo *jogo) {
   while (1) {
     if (kbhit()) {
@@ -103,7 +62,7 @@ void renderizaMesa(Jogo *jogo) {
         exit(0);
         break;
       case ' ':
-        jogo->pos_estoque++; // inteiro que muda aa posição do estoque a ser renderizado
+        trocaCartas(jogo);
         break;
       case DIREITA:
         movimentaCursor(jogo, 1, 0);
@@ -235,19 +194,20 @@ void renderizaEstoque(Jogo *jogo) {
     jogo->pos_estoque++;
     descarte++;
   }
-  if (descarte >= 0) jogo->estoque[descarte].visivel = true; // Toda carta no descarte deve estar visível
-  jogo->estoque[jogo->pos_estoque].visivel = true;           // estoque é uma pilha de cartas virada pra baixo (false só pra testar)
 
   if (jogo->pos_estoque > 24) { // quando chega na posição 25 ou maior ele volta para o começo
     jogo->pos_estoque = 0;
     descarte = -1;
   }
 
+  if (descarte >= 0) jogo->estoque[descarte].visivel = true; // Toda carta no descarte deve estar visível
+  jogo->estoque[jogo->pos_estoque].visivel = false;
+
   if (jogo->pos_estoque != 24) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
   if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                   // renderiza o descarte atualizado
 }
 
-void renderizaFundacao(Jogo *jogo) {
+void renderizaFundacao(Jogo *jogo) { //TODO: Acho que dá para otimizar (remover o primeiro for)
   int index;
   for (int col = 0; col < TAM_FUNDACAO_C; col++) {
     index = -1;
@@ -265,6 +225,13 @@ void renderizaFundacao(Jogo *jogo) {
   }
 }
 
+void renderizaCursorTroca(int x, int y, int cor) {
+  gotoxy(x, y);
+  setColor(cor);
+  printf(">");
+  resetColor();
+}
+
 void renderizaCursor(Jogo *jogo) {
   int x = jogo->cursor.x;
   int y = jogo->cursor.y;
@@ -272,17 +239,33 @@ void renderizaCursor(Jogo *jogo) {
     switch (x) {
     case 0:
     case 1:
-      gotoxy(2 + 10 * x, Y_CABECALHOS);
+      renderizaCursorTroca(2 + 10 * x, Y_CABECALHOS, WHITE);
+
       break;
     default:
-      gotoxy(2 + 10 + 10 * x, Y_CABECALHOS);
+      renderizaCursorTroca(2 + 10 + 10 * x, Y_CABECALHOS, WHITE);
       break;
     }
-    printf(">");
-    return;
+  } else
+    renderizaCursorTroca(2 + 10 * x, Y_TABLEAU + y - 1, WHITE);
+
+  //renderiza cursor de troca
+  if (jogo->pos_inicial.x || jogo->pos_inicial.y) {
+    if (jogo->pos_inicial.y == 0) {
+      switch (jogo->pos_inicial.x) {
+      case 0:
+      case 1:
+        renderizaCursorTroca(2 + 10 * jogo->pos_inicial.x, Y_CABECALHOS, YELLOW);
+
+        break;
+      default:
+        renderizaCursorTroca(2 + 10 + 10 * jogo->pos_inicial.x, Y_CABECALHOS, YELLOW);
+        break;
+      }
+      return;
+    } else
+      renderizaCursorTroca(2 + 10 * jogo->pos_inicial.x, Y_TABLEAU + jogo->pos_inicial.y - 1, YELLOW);
   }
-  gotoxy(2 + 10 * x, Y_TABLEAU + y - 1);
-  printf(">");
 }
 
 void criaInterfaceMesa(Jogo *jogo) {

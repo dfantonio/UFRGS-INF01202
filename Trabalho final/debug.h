@@ -16,14 +16,9 @@ void printaTableau(Jogo *jogo) {
 void debugMode(Jogo *jogo) {
   jogo->telaAtual = TELA_JOGO;
   strcpy(jogo->jogador, "Beta");
-  jogo->fundacao[0][0] = jogo->estoque[0];
-  jogo->fundacao[0][0].visivel = true;
+  // jogo->fundacao[0][0] = jogo->estoque[0];
+  // jogo->fundacao[0][0].numero--;
+  // jogo->fundacao[0][0].visivel = true;
   // jogo->fundacao[0][1] = jogo->estoque[1];
   // jogo->fundacao[0][1].visivel = true;
-  jogo->fundacao[0][2] = jogo->estoque[2];
-  jogo->fundacao[0][2].visivel = true;
-  jogo->fundacao[0][3] = jogo->estoque[3];
-  jogo->fundacao[0][3].visivel = true;
-  jogo->fundacao[1][3] = jogo->estoque[4];
-  jogo->fundacao[1][3].visivel = true;
 }
