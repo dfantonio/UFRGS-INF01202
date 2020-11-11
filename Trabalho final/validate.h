@@ -5,7 +5,7 @@
 #define VALIDATE_H
 
 int encontraUltimaCartaCol(Jogo *jogo, int x) {
-  for (int counter = 10; counter > 0; counter--) {
+  for (int counter = TAM_TABLEAU_L; counter > 0; counter--) {
     if (jogo->tableau[counter][x].numero != 0) {
       return counter;
     };
@@ -51,6 +51,7 @@ void trocaCartas(Jogo *jogo) {
       if (bothVisible && blackAndRed && isSequence) {
         jogo->tableau[cursorY][cursorX] = jogo->estoque[descarte];
         jogo->estoque[descarte].numero = 0;
+        jogo->pos_estoque--;
       }
 
       jogo->pos_inicial.x = 0;
