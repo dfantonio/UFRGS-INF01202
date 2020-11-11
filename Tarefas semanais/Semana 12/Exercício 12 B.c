@@ -22,11 +22,11 @@ void inicializa_baralho(Arquivo *payload) {
   }
 }
 
-int salva_estado(Arquivo payload) {
+void salva_estado(Arquivo payload, int quant) {
   FILE *arq;
   char nome[50];
   int teste;
-  Carta deck[52];
+  Carta deck[quant];
   Arquivo destino;
   printf("Digite o nome do arquivo: ");
   fgets(nome, 50, stdin);
@@ -41,9 +41,10 @@ int salva_estado(Arquivo payload) {
 int main() {
   srand(time(NULL));
   system("cls");
-
+  int quant;
+  quant = CARTAS;
   Arquivo payload;
   payload.quantidade = CARTAS;
   inicializa_baralho(&payload);
-  salva_estado(payload);
+  salva_estado(payload, quant);
 }

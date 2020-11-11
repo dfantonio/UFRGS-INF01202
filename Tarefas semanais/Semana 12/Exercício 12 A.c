@@ -32,12 +32,10 @@ int main() {
     fwrite(&info, sizeof(Info), 1, arq);
 
   } else {
-    fread(&resultadoint, sizeof(Info), 1, arq);
-    printf("Resultado: %d\n", resultadoint);
-    fread(&resultadofloat, sizeof(Info), 1, arq);
-    printf("Resultado: %.2f\n", resultadofloat);
-    fread(&resultadoletra, sizeof(Info), 1, arq);
-    printf("Resultado: %c", resultadoletra);
+    fread(&info, sizeof(Info), 1, arq);
+    printf("Resultado: %d\n", info.num);
+    printf("Resultado: %.2f\n", info.numf);
+    printf("Resultado: %c", info.letra);
     fclose(arq);
   }
 }

@@ -24,11 +24,11 @@ void inicializa_baralho(Carta baralho[CARTAS]) {
   }
 }
 
-void imprime_baralho(Carta pbaralho[CARTAS], int quant) {
+void imprime_baralho(Arquivo payload, int quant) {
   printf("Cartas: \n");
   for (int i = 0; i < quant; i++) {
-    printf("\n%d ", pbaralho[i].naipe);
-    switch (pbaralho[i].numero) {
+    printf("\n%d ", payload.cartas[i].naipe);
+    switch (payload.cartas[i].numero) {
     case 1:
       printf("de Copas");
       break;
@@ -45,7 +45,7 @@ void imprime_baralho(Carta pbaralho[CARTAS], int quant) {
   }
 }
 
-int carrega_estado(Arquivo payload, Arquivo *pbaralho) {
+int carrega_estado(Arquivo payload, int quant) {
   char nome[50];
   int lidos;
   printf("Digite o nome do arquivo: ");
@@ -57,12 +57,6 @@ int carrega_estado(Arquivo payload, Arquivo *pbaralho) {
   } else {
     fread(&lidos, sizeof(lidos), 1, arq);
     fread(&payload, sizeof(Arquivo), 1, arq);
-    for (int i = 0; i < CARTAS; i++) {
-      pbaralho->cartas[i].numero = payload.cartas[i].numero;
-      pbaralho->cartas[i].naipe = payload.cartas[i].naipe;
-      printf("Carta: %d Naipe: %d\n\t", pbaralho->cartas[i].numero, pbaralho->cartas[i].naipe);
-      printf("ARQ Carta: %d Naipe: %d\n\t", payload.cartas[i].numero, payload.cartas[i].naipe);
-    }
     return (lidos);
   }
 }
@@ -71,13 +65,12 @@ int main() {
   srand(time(NULL));
   system("cls");
   Arquivo payload;
-  Arquivo *pbaralho[52];
   int quant, true;
   quant = CARTAS;
-  true = carrega_estado(payload, &pbaralho);
+  true = carrega_estado(payload, quant);
   if (true == -1) {
     printf("Erro, arquivo corrompido ou com erro.");
   } else {
-    // imprime_baralho(&pbaralho, quant);
+    imprime_baralho(payload, quant);
   }
 }
