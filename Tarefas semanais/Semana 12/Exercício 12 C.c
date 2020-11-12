@@ -46,6 +46,7 @@ int carrega_estado(Carta baralho[CARTAS], int quant) {
   fread(baralho, sizeof(Carta) * CARTAS, 1, arq);
   return (lidos);
 }
+
 int main() {
   system("cls");
   Carta baralho[CARTAS];

@@ -28,6 +28,7 @@ int salva_estado(Carta cartas[CARTAS], int tamanho) {
   fwrite(cartas, sizeof(Carta) * 52, 1, arq);
   fclose(arq);
 }
+
 int main() {
   system("cls");
   Carta cartas[CARTAS];
