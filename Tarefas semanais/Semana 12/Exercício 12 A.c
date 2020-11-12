@@ -2,19 +2,12 @@
 #include <stdlib.h>
 
 int main() {
-
+  system("cls");
   FILE *arq;
 
-  typedef struct info {
-    int num;
-    float numf;
-    char letra;
-  } Info;
-
-  char nome[50], resultadoletra;
+  char nome[50], resultadoletra, letra;
   int num, resultadoint;
-  float resultadofloat;
-  Info info;
+  float resultadofloat, floatnum;
   printf("Digite o nome do arquivo: ");
   fgets(nome, 50, stdin);
   nome[strcspn(nome, "\n")] = 0;
@@ -23,19 +16,23 @@ int main() {
     arq = fopen(nome, "wb");
     // grava os 3 valores
     printf("Digite um número inteiro: ");
-    scanf("%d", &info.num);
+    scanf("%d", &num);
     printf("Digite um float: ");
-    scanf("%f", &info.numf);
+    scanf("%f", &floatnum);
     fflush(stdin);
     printf("Digite um caracter: ");
-    scanf("%c", &info.letra);
-    fwrite(&info, sizeof(Info), 1, arq);
+    scanf("%c", &letra);
+    fwrite(&num, sizeof(num), 1, arq);
+    fwrite(&floatnum, sizeof(floatnum), 1, arq);
+    fwrite(&letra, sizeof(letra), 1, arq);
 
   } else {
-    fread(&info, sizeof(Info), 1, arq);
-    printf("Resultado: %d\n", info.num);
-    printf("Resultado: %.2f\n", info.numf);
-    printf("Resultado: %c", info.letra);
+    fread(&num, sizeof(num), 1, arq);
+    printf("Resultado: %d\n", num);
+    fread(&resultadofloat, sizeof(resultadofloat), 1, arq);
+    printf("Resultado: %.2f\n", resultadofloat);
+    fread(&resultadoletra, sizeof(resultadoletra), 1, arq);
+    printf("Resultado: %c", resultadoletra);
     fclose(arq);
   }
 }
