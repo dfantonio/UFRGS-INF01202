@@ -9,7 +9,7 @@ typedef struct carta {
   int naipe;
 } Carta;
 
-void imprime_baralho(Carta baralho[CARTAS], int quant) {
+void imprime_baralho(Carta baralho[], int quant) {
   printf("Cartas: \n");
   for (int i = 0; i < quant; i++) {
     printf("\n%d ", baralho[i].numero);
@@ -30,7 +30,7 @@ void imprime_baralho(Carta baralho[CARTAS], int quant) {
   }
 }
 
-int carrega_estado(Carta baralho[CARTAS], int quant) {
+int carrega_estado(Carta baralho[]) {
   FILE *arq;
   char nome[50];
   int lidos;
@@ -39,20 +39,23 @@ int carrega_estado(Carta baralho[CARTAS], int quant) {
   nome[strcspn(nome, "\n")] = 0;
   arq = fopen(nome, "rb");
   if (arq == NULL) {
+    fclose(arq);
     return (-1);
   }
 
   fread(&lidos, sizeof(lidos), 1, arq);
-  fread(baralho, sizeof(Carta) * CARTAS, 1, arq);
+  fread(baralho, sizeof(Carta) * lidos, 1, arq);
+  fclose(arq);
   return (lidos);
 }
 
 int main() {
   system("cls");
   Carta baralho[CARTAS];
-  if (carrega_estado(baralho, CARTAS) == -1) {
+  int tamanho = carrega_estado(baralho);
+  if (tamanho == -1) {
     printf("Erro, arquivo corrompido ou com erro.");
   } else {
-    imprime_baralho(baralho, CARTAS);
+    imprime_baralho(baralho, tamanho);
   }
 }
