@@ -25,7 +25,6 @@ int main() {
     fwrite(&num, sizeof(num), 1, arq);
     fwrite(&floatnum, sizeof(floatnum), 1, arq);
     fwrite(&letra, sizeof(letra), 1, arq);
-
   } else {
     fread(&num, sizeof(num), 1, arq);
     printf("Resultado: %d\n", num);
