@@ -1,6 +1,6 @@
 #include <stdbool.h>
-#ifndef STRUCT_C // Esses dois ifs servem pra permitir que esse aquivo seja importa múltiplas vezes
-#define STRUCT_C
+#ifndef STRUCT_H // Esses dois ifs servem pra permitir que esse aquivo seja importa múltiplas vezes
+#define STRUCT_H
 
 #define COPAS   1
 #define PAUS    2

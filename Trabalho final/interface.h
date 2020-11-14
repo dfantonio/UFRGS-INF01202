@@ -2,6 +2,7 @@
 
 #include "rlutil.h"
 #include "struct.h"
+#include "utils.h"
 #include "validate.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,9 +58,15 @@ void renderizaMesa(Jogo *jogo) {
   while (1) {
     if (kbhit()) {
       char k = getkey();
-      switch (k) {
+      switch (tolower(k)) {
       case 'q':
         exit(0);
+        break;
+      case 'z':
+        salvaJogo(jogo);
+        break;
+      case 'm':
+        carregaJogo(jogo);
         break;
       case ' ':
         trocaCartas(jogo);
@@ -189,6 +196,10 @@ void renderizaTableau(Jogo *jogo) {
 
 void renderizaEstoque(Jogo *jogo) {
   int descarte = jogo->pos_estoque - 1;
+  int ncartas = 0;
+  for (int aux = 0; aux < 24; aux++) { // Conta quantas cartas existem no estoque/descarte;
+    if (jogo->estoque[aux].numero != 0) ncartas++;
+  }
 
   while (jogo->estoque[descarte].numero == 0 && jogo->pos_estoque > 0 && jogo->pos_estoque <= 24) { // cartas removidas tem valor 0, e são puladas. menos a posição inicial que também é 0
     jogo->pos_estoque++;
@@ -203,8 +214,8 @@ void renderizaEstoque(Jogo *jogo) {
   if (descarte >= 0) jogo->estoque[descarte].visivel = true; // Toda carta no descarte deve estar visível
   jogo->estoque[jogo->pos_estoque].visivel = false;
 
-  if (jogo->pos_estoque != 24) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
-  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                   // renderiza o descarte atualizado
+  if (jogo->pos_estoque != 24 && ncartas != 0) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
+  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                                   // renderiza o descarte atualizado
 }
 
 void renderizaFundacao(Jogo *jogo) { //TODO: Acho que dá para otimizar (remover o primeiro for)
