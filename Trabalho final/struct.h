@@ -32,7 +32,6 @@ typedef struct cursor {
 
 typedef struct jogo {
   Carta estoque[TAM_ESTOQUE];
-  Carta descarte[TAM_DESCARTE];
   Carta tableau[TAM_TABLEAU_L][TAM_TABLEAU_C];
   Carta fundacao[TAM_FUNDACAO_L][TAM_FUNDACAO_C];
   Cursor cursor;

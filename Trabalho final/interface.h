@@ -197,8 +197,12 @@ void renderizaTableau(Jogo *jogo) {
 void renderizaEstoque(Jogo *jogo) {
   int descarte = jogo->pos_estoque - 1;
   int ncartas = 0;
-  for (int aux = 0; aux < 24; aux++) { // Conta quantas cartas existem no estoque/descarte;
+  int ultimaCarta = 0;
+  for (int aux = 0; aux < 24; aux++) { // Conta quantas cartas existem no estoque/descarte
     if (jogo->estoque[aux].numero != 0) ncartas++;
+  }
+  for (int aux = 0; aux < 24; aux++) { // Encontra a posição da última carta
+    if (jogo->estoque[aux].numero != 0) ultimaCarta = aux + 1;
   }
 
   while (jogo->estoque[descarte].numero == 0 && jogo->pos_estoque > 0 && jogo->pos_estoque <= 24) { // cartas removidas tem valor 0, e são puladas. menos a posição inicial que também é 0
@@ -209,16 +213,17 @@ void renderizaEstoque(Jogo *jogo) {
   if (jogo->pos_estoque > 24) { // quando chega na posição 25 ou maior ele volta para o começo
     jogo->pos_estoque = 0;
     descarte = -1;
+    somaScore(jogo, PONT_FLIP_ESTOQUE);
   }
 
   if (descarte >= 0) jogo->estoque[descarte].visivel = true; // Toda carta no descarte deve estar visível
   jogo->estoque[jogo->pos_estoque].visivel = false;
 
-  if (jogo->pos_estoque != 24 && ncartas != 0) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
-  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                                   // renderiza o descarte atualizado
+  if (jogo->pos_estoque != ultimaCarta && ncartas != 0) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
+  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                                            // renderiza o descarte atualizado
 }
 
-void renderizaFundacao(Jogo *jogo) { //TODO: Acho que dá para otimizar (remover o primeiro for)
+void renderizaFundacao(Jogo *jogo) {
   int index;
   for (int col = 0; col < TAM_FUNDACAO_C; col++) {
     index = -1;
@@ -281,11 +286,11 @@ void renderizaCursor(Jogo *jogo) {
 
 void criaInterfaceMesa(Jogo *jogo) {
   criaQuadrado(74, 30);
-  aplicaLabels(jogo);
-  renderizaTableau(jogo);
   renderizaEstoque(jogo);
+  renderizaTableau(jogo);
   renderizaFundacao(jogo);
   renderizaCursor(jogo);
+  aplicaLabels(jogo);
 }
 
 void printMenuOption(char *texto, int startX, int startY) {

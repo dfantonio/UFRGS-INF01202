@@ -12,6 +12,13 @@ int encontraUltimaCartaCol(Jogo *jogo, int x) {
   }
 }
 
+void revelaTableau(Jogo *jogo, int x, int y) {
+  if (!jogo->tableau[y][x].visivel && y >= 0) {
+    jogo->tableau[y][x].visivel = true;
+    somaScore(jogo, PONT_FLIP_TABLEAU);
+  }
+}
+
 void trocaCartas(Jogo *jogo) {
   int posX = jogo->pos_inicial.x, posY = jogo->pos_inicial.y; // Origem da troca
   int cursorX = jogo->cursor.x, cursorY = jogo->cursor.y;     // Destino da troca
@@ -30,16 +37,16 @@ void trocaCartas(Jogo *jogo) {
         for (int count = 0; count <= (encontraUltimaCartaCol(jogo, posX) - (posY - 1)); count++) {
           jogo->tableau[cursorY + count - 1][cursorX] = jogo->tableau[posY - 1 + count][posX];
           jogo->tableau[posY - 1 + count][posX].numero = 0;
-          jogo->tableau[posY - 2][posX].visivel = true;
         }
+        revelaTableau(jogo, posX, posY - 2);
       }
 
-      if (bothVisible && blackAndRed && isSequence) {
+      if (bothVisible && blackAndRed && isSequence && posX != cursorX) {
         for (int count = 0; count <= (encontraUltimaCartaCol(jogo, posX) - (posY - 1)); count++) {
           jogo->tableau[cursorY + count][cursorX] = jogo->tableau[posY - 1 + count][posX];
           jogo->tableau[posY - 1 + count][posX].numero = 0;
-          jogo->tableau[posY - 2][posX].visivel = true;
         }
+        revelaTableau(jogo, posX, posY - 2);
       }
 
       jogo->pos_inicial.x = 0;
@@ -57,12 +64,14 @@ void trocaCartas(Jogo *jogo) {
         jogo->tableau[cursorY - 1][cursorX] = jogo->estoque[descarte];
         jogo->estoque[descarte].numero = 0;
         jogo->pos_estoque--;
+        somaScore(jogo, PONT_DESC_TABLEAU);
       }
 
       if ((bothVisible && blackAndRed && isSequence)) {
         jogo->tableau[cursorY][cursorX] = jogo->estoque[descarte];
         jogo->estoque[descarte].numero = 0;
         jogo->pos_estoque--;
+        somaScore(jogo, PONT_DESC_TABLEAU);
       }
 
       jogo->pos_inicial.x = 0;
@@ -85,6 +94,7 @@ void trocaCartas(Jogo *jogo) {
       if (isVisible && blackAndRed && isSequence) {
         jogo->tableau[cursorY][cursorX] = jogo->fundacao[lastPosition][posX - 2];
         jogo->fundacao[lastPosition][posX - 2].numero = 0;
+        somaScore(jogo, PONT_FUND_TABLEAU);
       }
 
       jogo->pos_inicial.x = 0;
@@ -100,10 +110,11 @@ void trocaCartas(Jogo *jogo) {
           break;
         };
       }
-      if (lastPosition == -1 && jogo->tableau[posY - 1][posX].numero == 1) {
+      if (lastPosition == -1 && jogo->tableau[posY - 1][posX].numero == 1) { // Caso a fundação esteja vazia
         jogo->fundacao[0][cursorX - 2] = jogo->tableau[posY - 1][posX];
         jogo->tableau[posY - 1][posX].numero = 0;
-        jogo->tableau[posY - 2][posX].visivel = true;
+        revelaTableau(jogo, posX, posY - 2);
+        somaScore(jogo, PONT_TO_FUND);
       } else {
 
         const int isSequence = jogo->fundacao[lastPosition][cursorX - 2].numero + 1 == jogo->tableau[posY - 1][posX].numero;
@@ -112,7 +123,8 @@ void trocaCartas(Jogo *jogo) {
         if (isSequence && isSameNaipe) {
           jogo->fundacao[lastPosition + 1][cursorX - 2] = jogo->tableau[posY - 1][posX];
           jogo->tableau[posY - 1][posX].numero = 0;
-          jogo->tableau[posY - 2][posX].visivel = true;
+          revelaTableau(jogo, posX, posY - 2);
+          somaScore(jogo, PONT_TO_FUND);
         }
       }
 
@@ -134,6 +146,7 @@ void trocaCartas(Jogo *jogo) {
       if (lastPosition == -1 && jogo->estoque[descarte].numero == 1) {
         jogo->fundacao[0][cursorX - 2] = jogo->estoque[descarte];
         jogo->estoque[descarte].numero = 0;
+        somaScore(jogo, PONT_TO_FUND);
       } else {
 
         const int isSequence = jogo->estoque[descarte].numero == jogo->fundacao[lastPosition][cursorX - 2].numero + 1;
@@ -142,6 +155,7 @@ void trocaCartas(Jogo *jogo) {
         if (isSequence && isSameNaipe) {
           jogo->fundacao[lastPosition][cursorX - 2] = jogo->estoque[descarte];
           jogo->estoque[descarte].numero = 0;
+          somaScore(jogo, PONT_TO_FUND);
         }
       }
 

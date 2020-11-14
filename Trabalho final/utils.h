@@ -9,8 +9,8 @@
 #define PONT_DESC_TABLEAU 5
 #define PONT_FLIP_TABLEAU 5
 #define PONT_TO_FUND      10
-#define PONT_FUND_TABLEAU 15
-#define PONT_FLIP_ESTOQUE 50
+#define PONT_FUND_TABLEAU -15
+#define PONT_FLIP_ESTOQUE -50
 #define PONT_WIN          300
 
 void salvaJogo(Jogo *jogo) {
