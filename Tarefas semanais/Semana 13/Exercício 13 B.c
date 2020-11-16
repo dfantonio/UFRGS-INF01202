@@ -16,13 +16,17 @@ int main() {
   fclose(par);
   fclose(imp);
   while (fgets(numeros, 50, arq)) {
+    printf("%s", numeros);
     numeros[strcspn(numeros, "\n")] = 0;
     if ((atoi(numeros) % 2) == 0) {
-      fopen("pares.txt", "a+");
+      par = fopen("pares.txt", "a+");
       fprintf(par, "%s\n", &numeros);
+      fclose(par);
     } else {
-      fopen("impares.txt", "a+");
+      imp = fopen("impares.txt", "a+");
       fprintf(imp, "%s\n", &numeros);
+      fclose(imp);
     }
   }
+  fclose(arq);
 }
