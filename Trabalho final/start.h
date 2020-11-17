@@ -5,7 +5,7 @@
 
 void embaralha(Jogo *jogo) {
   // srand(time(NULL));
-  srand(1);
+  srand(3);
   int random;
   for (int i = 0; i < 52; i++) {
     random = (rand() % 52);

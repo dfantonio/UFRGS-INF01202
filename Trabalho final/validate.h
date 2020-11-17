@@ -5,10 +5,17 @@
 #define VALIDATE_H
 
 int encontraUltimaCartaCol(Jogo *jogo, int x) {
-  for (int counter = TAM_TABLEAU_L; counter > 0; counter--) {
+  for (int counter = TAM_TABLEAU_L - 1; counter >= 0; counter--) {
     if (jogo->tableau[counter][x].numero != 0) {
       return counter;
     };
+  }
+}
+
+void revelaTableau(Jogo *jogo, int x, int y) {
+  if (!jogo->tableau[y][x].visivel && y >= 0) {
+    jogo->tableau[y][x].visivel = true;
+    somaScore(jogo, PONT_FLIP_TABLEAU);
   }
 }
 
@@ -25,14 +32,22 @@ void trocaCartas(Jogo *jogo) {
       const int bothVisible = jogo->tableau[posY - 1][posX].visivel && jogo->tableau[cursorY - 1][cursorX].visivel;           // Verifica se as duas cartas estão visíveis
       const int blackAndRed = (jogo->tableau[posY - 1][posX].naipe % 2 + jogo->tableau[cursorY - 1][cursorX].naipe % 2) == 1; // Verifica se há um naipe preto e outro vermelho
       const int isSequence = jogo->tableau[cursorY - 1][cursorX].numero == (jogo->tableau[posY - 1][posX].numero + 1);        // Verifica se o número do destino é o seguinte
+      const int isEmpty = jogo->tableau[cursorY - 1][cursorX].numero == 0;
 
-      if (bothVisible && blackAndRed && isSequence) {
-        int teste = encontraUltimaCartaCol(jogo, posX) - (posY - 1);
+      if ((cursorY - 1) == 0 && jogo->tableau[posY - 1][posX].numero == 13 && isEmpty) { // Mover o rei para uma nova coluna
+        for (int count = 0; count <= (encontraUltimaCartaCol(jogo, posX) - (posY - 1)); count++) {
+          jogo->tableau[cursorY + count - 1][cursorX] = jogo->tableau[posY - 1 + count][posX];
+          jogo->tableau[posY - 1 + count][posX].numero = 0;
+        }
+        revelaTableau(jogo, posX, posY - 2);
+      }
+
+      if (bothVisible && blackAndRed && isSequence && posX != cursorX) {
         for (int count = 0; count <= (encontraUltimaCartaCol(jogo, posX) - (posY - 1)); count++) {
           jogo->tableau[cursorY + count][cursorX] = jogo->tableau[posY - 1 + count][posX];
           jogo->tableau[posY - 1 + count][posX].numero = 0;
-          jogo->tableau[posY - 2][posX].visivel = true;
         }
+        revelaTableau(jogo, posX, posY - 2);
       }
 
       jogo->pos_inicial.x = 0;
@@ -41,17 +56,23 @@ void trocaCartas(Jogo *jogo) {
     }
 
     if (posY == 0 && posX == 1 && cursorY != 0) { // Descarte -> Tableau
-
-      //TODO: Implementar mecânica de baixar um rei em alguma coluna vaga
       const int descarte = jogo->pos_estoque - 1;
       const int bothVisible = jogo->estoque[descarte].visivel && jogo->tableau[cursorY - 1][cursorX].visivel;           // Verifica se as duas cartas estão visíveis
       const int blackAndRed = (jogo->estoque[descarte].naipe % 2 + jogo->tableau[cursorY - 1][cursorX].naipe % 2) == 1; // Verifica se há um naipe preto e outro vermelho
       const int isSequence = jogo->estoque[descarte].numero == (jogo->tableau[cursorY - 1][cursorX].numero - 1);        // Verifica se o número do destino é o seguinte
 
-      if (bothVisible && blackAndRed && isSequence) {
+      if ((cursorY - 1) == 0 && jogo->estoque[descarte].numero == 13) { // Mover o rei para uma nova coluna
+        jogo->tableau[cursorY - 1][cursorX] = jogo->estoque[descarte];
+        jogo->estoque[descarte].numero = 0;
+        jogo->pos_estoque--;
+        somaScore(jogo, PONT_DESC_TABLEAU);
+      }
+
+      if ((bothVisible && blackAndRed && isSequence)) {
         jogo->tableau[cursorY][cursorX] = jogo->estoque[descarte];
         jogo->estoque[descarte].numero = 0;
         jogo->pos_estoque--;
+        somaScore(jogo, PONT_DESC_TABLEAU);
       }
 
       jogo->pos_inicial.x = 0;
@@ -74,6 +95,7 @@ void trocaCartas(Jogo *jogo) {
       if (isVisible && blackAndRed && isSequence) {
         jogo->tableau[cursorY][cursorX] = jogo->fundacao[lastPosition][posX - 2];
         jogo->fundacao[lastPosition][posX - 2].numero = 0;
+        somaScore(jogo, PONT_FUND_TABLEAU);
       }
 
       jogo->pos_inicial.x = 0;
@@ -83,25 +105,27 @@ void trocaCartas(Jogo *jogo) {
 
     if (posY > 0 && cursorY == 0 && cursorX >= 2) { // Tableau -> Fundação
       int lastPosition = -1;
-      for (int linha = TAM_FUNDACAO_L - 1; linha >= 0; linha--) {
+      for (int linha = TAM_FUNDACAO_L - 1; linha >= 0; linha--) { //Encontra a última carta na pilha da funcação
         if (jogo->fundacao[linha][cursorX - 2].numero) {
           lastPosition = linha;
           break;
         };
       }
-      if (lastPosition == -1 && jogo->tableau[posY - 1][posX].numero == 1) {
+      if (lastPosition == -1 && jogo->tableau[posY - 1][posX].numero == 1) { // Caso a fundação esteja vazia
         jogo->fundacao[0][cursorX - 2] = jogo->tableau[posY - 1][posX];
         jogo->tableau[posY - 1][posX].numero = 0;
-        jogo->tableau[posY - 2][posX].visivel = true;
+        revelaTableau(jogo, posX, posY - 2);
+        somaScore(jogo, PONT_TO_FUND);
       } else {
 
         const int isSequence = jogo->fundacao[lastPosition][cursorX - 2].numero + 1 == jogo->tableau[posY - 1][posX].numero;
         const int isSameNaipe = jogo->fundacao[lastPosition][cursorX - 2].naipe == jogo->tableau[posY - 1][posX].naipe;
 
         if (isSequence && isSameNaipe) {
-          jogo->fundacao[lastPosition][cursorX - 2] = jogo->tableau[posY - 1][posX];
+          jogo->fundacao[lastPosition + 1][cursorX - 2] = jogo->tableau[posY - 1][posX];
           jogo->tableau[posY - 1][posX].numero = 0;
-          jogo->tableau[posY][posX].visivel = true;
+          revelaTableau(jogo, posX, posY - 2);
+          somaScore(jogo, PONT_TO_FUND);
         }
       }
 
@@ -123,6 +147,7 @@ void trocaCartas(Jogo *jogo) {
       if (lastPosition == -1 && jogo->estoque[descarte].numero == 1) {
         jogo->fundacao[0][cursorX - 2] = jogo->estoque[descarte];
         jogo->estoque[descarte].numero = 0;
+        somaScore(jogo, PONT_TO_FUND);
       } else {
 
         const int isSequence = jogo->estoque[descarte].numero == jogo->fundacao[lastPosition][cursorX - 2].numero + 1;
@@ -131,6 +156,7 @@ void trocaCartas(Jogo *jogo) {
         if (isSequence && isSameNaipe) {
           jogo->fundacao[lastPosition][cursorX - 2] = jogo->estoque[descarte];
           jogo->estoque[descarte].numero = 0;
+          somaScore(jogo, PONT_TO_FUND);
         }
       }
 

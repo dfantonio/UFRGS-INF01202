@@ -2,6 +2,7 @@
 
 #include "rlutil.h"
 #include "struct.h"
+#include "utils.h"
 #include "validate.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,6 +14,8 @@
 #define TELA_INICIO      0
 #define TELA_JOGO        1
 #define TELA_LEADERBOARD 2
+#define TELA_GET_DATA    3
+#define TELA_PAUSE       4
 
 #define Q_ES 218 // Quina esquerda superior
 #define Q_EI 192 // Quina esquerda inferior
@@ -35,10 +38,22 @@ void rodaJogo(Jogo *jogo) {
 
     switch (jogo->telaAtual) {
     case TELA_INICIO:
+      cls();
       printMainMenu(jogo);
       break;
 
+    case TELA_GET_DATA:
+      cls();
+      renderizaGetData(jogo);
+      break;
+
+    case TELA_PAUSE:
+      cls();
+      renderizaPause(jogo);
+      break;
+
     case TELA_JOGO:
+      cls();
       criaInterfaceMesa(jogo);
       renderizaMesa(jogo);
       break;
@@ -53,14 +68,91 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
-void renderizaMesa(Jogo *jogo) {
+void renderizaPause(Jogo *jogo) {
+  criaQuadrado(74, 30);
+  printMenuOption("1 - Salvar e Sair", 25, 5);
+  printMenuOption("2 - Sair", 30, 8);
+
   while (1) {
     if (kbhit()) {
       char k = getkey();
       switch (k) {
-      case 'q':
-        exit(0);
+      case '1':
+        cls();
+        criaQuadrado(74, 30);
+        gotoxy(25, 5);
+        printf("Nome do arquivo do save: ");
+
+        char arquivo[30];
+        fflush(stdin);
+        fgets(arquivo, 30, stdin);
+        arquivo[strcspn(arquivo, "\n")] = 0;
+        salvaJogo(jogo, arquivo);
+
+        jogo->telaAtual = TELA_INICIO;
+        return;
+
+      case '2':
+        jogo->telaAtual = TELA_INICIO;
+        return;
+
+      default:
         break;
+      }
+    }
+  }
+}
+
+void renderizaGetData(Jogo *jogo) {
+  criaQuadrado(74, 30);
+  printMenuOption("1 - Novo Jogo", 25, 5);
+  printMenuOption("2 - Carregar save", 23, 8);
+
+  while (1) {
+    if (kbhit()) {
+      char k = getkey();
+      switch (k) {
+      case '1':
+        setup(jogo);
+        criaQuadrado(74, 30);
+        gotoxy(25, 5);
+        printf("Nome do jogador: ");
+        fflush(stdin);
+        fgets(jogo->jogador, 30, stdin);
+        jogo->telaAtual = TELA_JOGO;
+        return;
+
+      case '2':
+        cls();
+        criaQuadrado(74, 30);
+        gotoxy(25, 5);
+        printf("Nome do arquivo do save: ");
+
+        char arquivo[30];
+        fflush(stdin);
+        fgets(arquivo, 30, stdin);
+        arquivo[strcspn(arquivo, "\n")] = 0;
+        carregaJogo(jogo, arquivo);
+
+        jogo->telaAtual = TELA_JOGO;
+        return;
+
+      default:
+        break;
+      }
+    }
+  }
+}
+
+void renderizaMesa(Jogo *jogo) {
+  while (1) {
+    if (kbhit()) {
+      char k = getkey();
+      switch (tolower(k)) {
+      case 0:  // Código do ESC do cmd
+      case 27: // Código ESC da tabela ASCII
+        jogo->telaAtual = TELA_PAUSE;
+        return;
       case ' ':
         trocaCartas(jogo);
         break;
@@ -189,6 +281,14 @@ void renderizaTableau(Jogo *jogo) {
 
 void renderizaEstoque(Jogo *jogo) {
   int descarte = jogo->pos_estoque - 1;
+  int ncartas = 0;
+  int ultimaCarta = 0;
+  for (int aux = 0; aux < 24; aux++) { // Conta quantas cartas existem no estoque/descarte
+    if (jogo->estoque[aux].numero != 0) ncartas++;
+  }
+  for (int aux = 0; aux < 24; aux++) { // Encontra a posição da última carta
+    if (jogo->estoque[aux].numero != 0) ultimaCarta = aux + 1;
+  }
 
   while (jogo->estoque[descarte].numero == 0 && jogo->pos_estoque > 0 && jogo->pos_estoque <= 24) { // cartas removidas tem valor 0, e são puladas. menos a posição inicial que também é 0
     jogo->pos_estoque++;
@@ -198,16 +298,17 @@ void renderizaEstoque(Jogo *jogo) {
   if (jogo->pos_estoque > 24) { // quando chega na posição 25 ou maior ele volta para o começo
     jogo->pos_estoque = 0;
     descarte = -1;
+    somaScore(jogo, PONT_FLIP_ESTOQUE);
   }
 
   if (descarte >= 0) jogo->estoque[descarte].visivel = true; // Toda carta no descarte deve estar visível
   jogo->estoque[jogo->pos_estoque].visivel = false;
 
-  if (jogo->pos_estoque != 24) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
-  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                   // renderiza o descarte atualizado
+  if (jogo->pos_estoque != ultimaCarta && ncartas != 0) renderizaCarta(&jogo->estoque[jogo->pos_estoque], 4, 6); // renderiza o estoque atualizado
+  if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                                            // renderiza o descarte atualizado
 }
 
-void renderizaFundacao(Jogo *jogo) { //TODO: Acho que dá para otimizar (remover o primeiro for)
+void renderizaFundacao(Jogo *jogo) {
   int index;
   for (int col = 0; col < TAM_FUNDACAO_C; col++) {
     index = -1;
@@ -270,11 +371,11 @@ void renderizaCursor(Jogo *jogo) {
 
 void criaInterfaceMesa(Jogo *jogo) {
   criaQuadrado(74, 30);
-  aplicaLabels(jogo);
-  renderizaTableau(jogo);
   renderizaEstoque(jogo);
+  renderizaTableau(jogo);
   renderizaFundacao(jogo);
   renderizaCursor(jogo);
+  aplicaLabels(jogo);
 }
 
 void printMenuOption(char *texto, int startX, int startY) {
@@ -326,10 +427,12 @@ void printMainMenu(Jogo *jogo) {
       char k = getkey();
       switch (k) {
       case '1':
-        jogo->telaAtual = TELA_JOGO;
+        cls();
+        jogo->telaAtual = TELA_GET_DATA;
         return;
 
       case '2':
+        cls();
         jogo->telaAtual = TELA_LEADERBOARD;
         return;
 

@@ -1,6 +1,6 @@
 #include <stdbool.h>
-#ifndef STRUCT_C // Esses dois ifs servem pra permitir que esse aquivo seja importa múltiplas vezes
-#define STRUCT_C
+#ifndef STRUCT_H // Esses dois ifs servem pra permitir que esse aquivo seja importa múltiplas vezes
+#define STRUCT_H
 
 #define COPAS   1
 #define PAUS    2
@@ -32,7 +32,6 @@ typedef struct cursor {
 
 typedef struct jogo {
   Carta estoque[TAM_ESTOQUE];
-  Carta descarte[TAM_DESCARTE];
   Carta tableau[TAM_TABLEAU_L][TAM_TABLEAU_C];
   Carta fundacao[TAM_FUNDACAO_L][TAM_FUNDACAO_C];
   Cursor cursor;
