@@ -32,8 +32,9 @@ void trocaCartas(Jogo *jogo) {
       const int bothVisible = jogo->tableau[posY - 1][posX].visivel && jogo->tableau[cursorY - 1][cursorX].visivel;           // Verifica se as duas cartas estão visíveis
       const int blackAndRed = (jogo->tableau[posY - 1][posX].naipe % 2 + jogo->tableau[cursorY - 1][cursorX].naipe % 2) == 1; // Verifica se há um naipe preto e outro vermelho
       const int isSequence = jogo->tableau[cursorY - 1][cursorX].numero == (jogo->tableau[posY - 1][posX].numero + 1);        // Verifica se o número do destino é o seguinte
+      const int isEmpty = jogo->tableau[cursorY - 1][cursorX].numero == 0;
 
-      if ((cursorY - 1) == 0 && jogo->tableau[posY - 1][posX].numero == 13 && jogo->tableau[posY - 1][posX].visivel) { // Mover o rei para uma nova coluna
+      if ((cursorY - 1) == 0 && jogo->tableau[posY - 1][posX].numero == 13 && isEmpty) { // Mover o rei para uma nova coluna
         for (int count = 0; count <= (encontraUltimaCartaCol(jogo, posX) - (posY - 1)); count++) {
           jogo->tableau[cursorY + count - 1][cursorX] = jogo->tableau[posY - 1 + count][posX];
           jogo->tableau[posY - 1 + count][posX].numero = 0;
