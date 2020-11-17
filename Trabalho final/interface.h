@@ -15,6 +15,7 @@
 #define TELA_JOGO        1
 #define TELA_LEADERBOARD 2
 #define TELA_GET_DATA    3
+#define TELA_PAUSE       4
 
 #define Q_ES 218 // Quina esquerda superior
 #define Q_EI 192 // Quina esquerda inferior
@@ -37,11 +38,18 @@ void rodaJogo(Jogo *jogo) {
 
     switch (jogo->telaAtual) {
     case TELA_INICIO:
+      cls();
       printMainMenu(jogo);
       break;
 
     case TELA_GET_DATA:
+      cls();
       renderizaGetData(jogo);
+      break;
+
+    case TELA_PAUSE:
+      cls();
+      renderizaPause(jogo);
       break;
 
     case TELA_JOGO:
@@ -60,11 +68,10 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
-void renderizaGetData(Jogo *jogo) {
-  cls();
+void renderizaPause(Jogo *jogo) {
   criaQuadrado(74, 30);
-  printMenuOption("1 - Novo Jogo", 25, 5);
-  printMenuOption("2 - Carregar save", 23, 8);
+  printMenuOption("1 - Salvar e Sair", 25, 5);
+  printMenuOption("2 - Sair", 30, 8);
 
   while (1) {
     if (kbhit()) {
@@ -74,8 +81,42 @@ void renderizaGetData(Jogo *jogo) {
         cls();
         criaQuadrado(74, 30);
         gotoxy(25, 5);
-        printf("Nome do jogador: ");
+        printf("Nome do arquivo do save: ");
 
+        char arquivo[30];
+        fflush(stdin);
+        fgets(arquivo, 30, stdin);
+        arquivo[strcspn(arquivo, "\n")] = 0;
+        salvaJogo(jogo, arquivo);
+
+        jogo->telaAtual = TELA_INICIO;
+        return;
+
+      case '2':
+        jogo->telaAtual = TELA_INICIO;
+        return;
+
+      default:
+        break;
+      }
+    }
+  }
+}
+
+void renderizaGetData(Jogo *jogo) {
+  criaQuadrado(74, 30);
+  printMenuOption("1 - Novo Jogo", 25, 5);
+  printMenuOption("2 - Carregar save", 23, 8);
+
+  while (1) {
+    if (kbhit()) {
+      char k = getkey();
+      switch (k) {
+      case '1':
+        setup(jogo);
+        criaQuadrado(74, 30);
+        gotoxy(25, 5);
+        printf("Nome do jogador: ");
         fflush(stdin);
         fgets(jogo->jogador, 30, stdin);
         jogo->telaAtual = TELA_JOGO;
@@ -108,12 +149,10 @@ void renderizaMesa(Jogo *jogo) {
     if (kbhit()) {
       char k = getkey();
       switch (tolower(k)) {
-      case 'q':
-        exit(0);
-        break;
-      case 'z':
-        salvaJogo(jogo);
-        break;
+      case 0:  // Código do ESC do cmd
+      case 27: // Código ESC da tabela ASCII
+        jogo->telaAtual = TELA_PAUSE;
+        return;
       case ' ':
         trocaCartas(jogo);
         break;

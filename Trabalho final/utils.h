@@ -13,16 +13,16 @@
 #define PONT_FLIP_ESTOQUE -50
 #define PONT_WIN          300
 
-void salvaJogo(Jogo *jogo) {
+void salvaJogo(Jogo *jogo, char nome[30]) {
   FILE *arq;
-  arq = fopen(ARQ_SAVE, "wb");
+  arq = fopen(nome, "wb");
   fwrite(jogo, sizeof(Jogo), 1, arq);
   fclose(arq);
 }
 
 int carregaJogo(Jogo *jogo, char nome[30]) {
   FILE *arq;
-  arq = fopen(ARQ_SAVE, "rb");
+  arq = fopen(nome, "rb");
   if (arq == NULL) {
     fclose(arq);
     return 0;
