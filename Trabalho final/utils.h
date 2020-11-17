@@ -20,10 +20,13 @@ void salvaJogo(Jogo *jogo) {
   fclose(arq);
 }
 
-void carregaJogo(Jogo *jogo) {
+int carregaJogo(Jogo *jogo, char nome[30]) {
   FILE *arq;
   arq = fopen(ARQ_SAVE, "rb");
-  int tamanho = sizeof(Jogo);
+  if (arq == NULL) {
+    fclose(arq);
+    return 0;
+  }
   fread(jogo, sizeof(Jogo), 1, arq);
   fclose(arq);
 }

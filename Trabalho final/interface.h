@@ -14,6 +14,7 @@
 #define TELA_INICIO      0
 #define TELA_JOGO        1
 #define TELA_LEADERBOARD 2
+#define TELA_GET_DATA    3
 
 #define Q_ES 218 // Quina esquerda superior
 #define Q_EI 192 // Quina esquerda inferior
@@ -39,7 +40,12 @@ void rodaJogo(Jogo *jogo) {
       printMainMenu(jogo);
       break;
 
+    case TELA_GET_DATA:
+      renderizaGetData(jogo);
+      break;
+
     case TELA_JOGO:
+      cls();
       criaInterfaceMesa(jogo);
       renderizaMesa(jogo);
       break;
@@ -54,6 +60,49 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
+void renderizaGetData(Jogo *jogo) {
+  cls();
+  criaQuadrado(74, 30);
+  printMenuOption("1 - Novo Jogo", 25, 5);
+  printMenuOption("2 - Carregar save", 23, 8);
+
+  while (1) {
+    if (kbhit()) {
+      char k = getkey();
+      switch (k) {
+      case '1':
+        cls();
+        criaQuadrado(74, 30);
+        gotoxy(25, 5);
+        printf("Nome do jogador: ");
+
+        fflush(stdin);
+        fgets(jogo->jogador, 30, stdin);
+        jogo->telaAtual = TELA_JOGO;
+        return;
+
+      case '2':
+        cls();
+        criaQuadrado(74, 30);
+        gotoxy(25, 5);
+        printf("Nome do arquivo do save: ");
+
+        char arquivo[30];
+        fflush(stdin);
+        fgets(arquivo, 30, stdin);
+        arquivo[strcspn(arquivo, "\n")] = 0;
+        carregaJogo(jogo, arquivo);
+
+        jogo->telaAtual = TELA_JOGO;
+        return;
+
+      default:
+        break;
+      }
+    }
+  }
+}
+
 void renderizaMesa(Jogo *jogo) {
   while (1) {
     if (kbhit()) {
@@ -64,9 +113,6 @@ void renderizaMesa(Jogo *jogo) {
         break;
       case 'z':
         salvaJogo(jogo);
-        break;
-      case 'm':
-        carregaJogo(jogo);
         break;
       case ' ':
         trocaCartas(jogo);
@@ -342,10 +388,12 @@ void printMainMenu(Jogo *jogo) {
       char k = getkey();
       switch (k) {
       case '1':
-        jogo->telaAtual = TELA_JOGO;
+        cls();
+        jogo->telaAtual = TELA_GET_DATA;
         return;
 
       case '2':
+        cls();
         jogo->telaAtual = TELA_LEADERBOARD;
         return;
 
