@@ -18,4 +18,5 @@ int main() {
     y = strtok(NULL, quebra);
     printf("%.4f\n", atof(x) * atof(y));
   }
+  fclose(arq);
 }
