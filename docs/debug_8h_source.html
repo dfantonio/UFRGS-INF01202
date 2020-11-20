@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Jogo de paciência: Código-Fonte de debug.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Jogo de paciência
+   &#160;<span id="projectnumber">0.9</span>
+   </div>
+   <div id="projectbrief">jogo de paciência feito para a disciplina de programação</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.20 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Busca');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('debug_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">debug.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="debug_8h.html">Vá para a documentação desse arquivo.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="interface_8h.html">interface.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="struct_8h.html">struct.h</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Função para debug que printa todo o tableau</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="debug_8h.html#afedb0b32121ee5cfff964de723305749">    7</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="debug_8h.html#afedb0b32121ee5cfff964de723305749">printaTableau</a>(<a class="code" href="structjogo.html">Jogo</a> *<a class="code" href="structjogo.html">jogo</a>) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> row = 0; row &lt; 19; row++) {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> col = 0; col &lt; 7; col++) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;      printf(<span class="stringliteral">&quot;%d %d %d\t&quot;</span>, <a class="code" href="structjogo.html">jogo</a>-&gt;<a class="code" href="structjogo.html#a5be8bce88adcd45ed2b014bba5fc4dfc">tableau</a>[row][col].<a class="code" href="structcarta.html#a2c30f43104974e72e2809fb4569804b0">numero</a>, <a class="code" href="structjogo.html">jogo</a>-&gt;<a class="code" href="structjogo.html#a5be8bce88adcd45ed2b014bba5fc4dfc">tableau</a>[row][col].<a class="code" href="structcarta.html#a6a8e249a9da7feaa9000978c007b7908">naipe</a>, <a class="code" href="structjogo.html">jogo</a>-&gt;<a class="code" href="structjogo.html#a5be8bce88adcd45ed2b014bba5fc4dfc">tableau</a>[row][col].<a class="code" href="structcarta.html#a1c7c2f6805893e576b571c8457f1cf0f">visivel</a>);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    }</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  }</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="debug_8h.html#a35d411c89c2fd124eb07f6985827e169">   16</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="debug_8h.html#a35d411c89c2fd124eb07f6985827e169">debugMode</a>(<a class="code" href="structjogo.html">Jogo</a> *<a class="code" href="structjogo.html">jogo</a>) {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <a class="code" href="structjogo.html">jogo</a>-&gt;<a class="code" href="structjogo.html#a2425e9ee37581f4ba18e2be8d1665627">telaAtual</a> = TELA_JOGO;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  strcpy(<a class="code" href="structjogo.html">jogo</a>-&gt;<a class="code" href="structjogo.html#ac24cb10548ab1222b69457ac083a21ea">jogador</a>, <span class="stringliteral">&quot;Beta&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="comment">// jogo-&gt;fundacao[0][0] = jogo-&gt;estoque[0];</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="comment">// jogo-&gt;fundacao[0][0].numero--;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="comment">// jogo-&gt;fundacao[0][0].visivel = true;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="comment">// jogo-&gt;fundacao[0][1] = jogo-&gt;estoque[1];</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="comment">// jogo-&gt;fundacao[0][1].visivel = true;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="astructcarta_html_a6a8e249a9da7feaa9000978c007b7908"><div class="ttname"><a href="structcarta.html#a6a8e249a9da7feaa9000978c007b7908">carta::naipe</a></div><div class="ttdeci">int naipe</div><div class="ttdef"><b>Definition:</b> struct.h:24</div></div>
+<div class="ttc" id="astructcarta_html_a2c30f43104974e72e2809fb4569804b0"><div class="ttname"><a href="structcarta.html#a2c30f43104974e72e2809fb4569804b0">carta::numero</a></div><div class="ttdeci">int numero</div><div class="ttdef"><b>Definition:</b> struct.h:23</div></div>
+<div class="ttc" id="astructjogo_html"><div class="ttname"><a href="structjogo.html">jogo</a></div><div class="ttdef"><b>Definition:</b> struct.h:33</div></div>
+<div class="ttc" id="adebug_8h_html_a35d411c89c2fd124eb07f6985827e169"><div class="ttname"><a href="debug_8h.html#a35d411c89c2fd124eb07f6985827e169">debugMode</a></div><div class="ttdeci">void debugMode(Jogo *jogo)</div><div class="ttdef"><b>Definition:</b> debug.h:16</div></div>
+<div class="ttc" id="ainterface_8h_html"><div class="ttname"><a href="interface_8h.html">interface.h</a></div></div>
+<div class="ttc" id="astructcarta_html_a1c7c2f6805893e576b571c8457f1cf0f"><div class="ttname"><a href="structcarta.html#a1c7c2f6805893e576b571c8457f1cf0f">carta::visivel</a></div><div class="ttdeci">bool visivel</div><div class="ttdef"><b>Definition:</b> struct.h:25</div></div>
+<div class="ttc" id="astructjogo_html_a5be8bce88adcd45ed2b014bba5fc4dfc"><div class="ttname"><a href="structjogo.html#a5be8bce88adcd45ed2b014bba5fc4dfc">jogo::tableau</a></div><div class="ttdeci">Carta tableau[TAM_TABLEAU_L][TAM_TABLEAU_C]</div><div class="ttdef"><b>Definition:</b> struct.h:35</div></div>
+<div class="ttc" id="astructjogo_html_ac24cb10548ab1222b69457ac083a21ea"><div class="ttname"><a href="structjogo.html#ac24cb10548ab1222b69457ac083a21ea">jogo::jogador</a></div><div class="ttdeci">char jogador[TAM_JOGADOR]</div><div class="ttdef"><b>Definition:</b> struct.h:39</div></div>
+<div class="ttc" id="astructjogo_html_a2425e9ee37581f4ba18e2be8d1665627"><div class="ttname"><a href="structjogo.html#a2425e9ee37581f4ba18e2be8d1665627">jogo::telaAtual</a></div><div class="ttdeci">int telaAtual</div><div class="ttdef"><b>Definition:</b> struct.h:41</div></div>
+<div class="ttc" id="astruct_8h_html"><div class="ttname"><a href="struct_8h.html">struct.h</a></div></div>
+<div class="ttc" id="adebug_8h_html_afedb0b32121ee5cfff964de723305749"><div class="ttname"><a href="debug_8h.html#afedb0b32121ee5cfff964de723305749">printaTableau</a></div><div class="ttdeci">void printaTableau(Jogo *jogo)</div><div class="ttdef"><b>Definition:</b> debug.h:7</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="debug_8h.html">debug.h</a></li>
+    <li class="footer">Gerado por <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+  </ul>
+</div>
+</body>
+</html>
