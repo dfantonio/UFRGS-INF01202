@@ -7,6 +7,5 @@
 int main() {
   Jogo jogo;
   setup(&jogo);
-  debugMode(&jogo);
   rodaJogo(&jogo);
 }

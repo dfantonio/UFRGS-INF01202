@@ -13,6 +13,7 @@ void setup(Jogo *jogo) {
   jogo->score = 0;
   jogo->pos_inicial.x = 0;
   jogo->pos_inicial.y = 0;
+  jogo->vitoria = false;
   cls();
   hidecursor();
   saveDefaultColor();
