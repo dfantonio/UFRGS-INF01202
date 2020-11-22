@@ -36,6 +36,26 @@
 #define Y_TABLEAU             9
 
 /**
+ * @brief Função que inicializa toda a struct
+ * 
+ * @param jogo Instância atual do jogo
+ */
+void setup(Jogo *jogo) {
+  jogo->telaAtual = TELA_INICIO;
+  jogo->pos_estoque = 0; // posição do estoque começa em 0
+  jogo->cursor.x = 0;
+  jogo->cursor.y = 0;
+  jogo->score = 0;
+  jogo->pos_inicial.x = 0;
+  jogo->pos_inicial.y = 0;
+  jogo->vitoria = false;
+  cls();
+  hidecursor();
+  saveDefaultColor();
+  iniciaCartas(jogo);
+}
+
+/**
  * @brief Função que salva o estado atual do jogo em um arquivo.
  * 
  * @param jogo Instância atual do jogo
