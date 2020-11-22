@@ -125,6 +125,8 @@ void renderizaPause(Jogo *jogo) {
 
 /**
  * @brief Renderiza a tela que pega alguns dados.
+ * Faz algumas validações para assegurar que o jogo não comece sem nome
+ * ou carregue um arquivo que não exista
  * 
  * @param jogo Instância atual do jogo
  */
@@ -138,13 +140,15 @@ void renderizaGetData(Jogo *jogo) {
       char k = getkey();
       switch (k) {
       case '1':
-        setup(jogo);
-        criaQuadrado(74, 30);
-        gotoxy(25, 5);
-        printf("Nome do jogador: ");
-        fflush(stdin);
-        fgets(jogo->jogador, 30, stdin);
-        jogo->jogador[strcspn(jogo->jogador, "\n")] = 0;
+        do {
+          setup(jogo);
+          criaQuadrado(74, 30);
+          gotoxy(25, 5);
+          printf("Nome do jogador: ");
+          fflush(stdin);
+          fgets(jogo->jogador, 30, stdin);
+          jogo->jogador[strcspn(jogo->jogador, "\n")] = 0;
+        } while (!strlen(jogo->jogador));
         jogo->telaAtual = TELA_JOGO;
         return;
 
@@ -158,7 +162,14 @@ void renderizaGetData(Jogo *jogo) {
         fflush(stdin);
         fgets(arquivo, 30, stdin);
         arquivo[strcspn(arquivo, "\n")] = 0;
-        carregaJogo(jogo, arquivo);
+        if (!carregaJogo(jogo, arquivo)) {
+          gotoxy(27, 8);
+          printf("Arquivo nao encontrado");
+          gotoxy(20, 11);
+          system("pause");
+          jogo->telaAtual = TELA_INICIO;
+          return;
+        }
 
         jogo->telaAtual = TELA_JOGO;
         return;

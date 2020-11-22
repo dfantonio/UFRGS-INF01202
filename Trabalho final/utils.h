@@ -73,14 +73,17 @@ void salvaJogo(Jogo *jogo, char nome[30]) {
  * 
  * @param jogo Instância atual do jogo
  * @param nome Nome do arquivo a ser salvo o jogo
+ * @return true Caso o arquivo exista
+ * @return false Caso o arquivo dê erro na leitura
  */
-void carregaJogo(Jogo *jogo, char nome[30]) {
+bool carregaJogo(Jogo *jogo, char nome[30]) {
   FILE *arq;
   arq = fopen(nome, "rb");
-  if (arq == NULL) return;
+  if (arq == NULL) return false;
 
   fread(jogo, sizeof(Jogo), 1, arq);
   fclose(arq);
+  return true;
 }
 
 /**
