@@ -5,19 +5,19 @@
 #ifndef UTILS_H // Esses dois ifs servem pra permitir que esse aquivo seja importa múltiplas vezes
 #define UTILS_H
 
-#define ARQ_LEADERBOARD   "top scores"
-#define PONT_DESC_TABLEAU 5
-#define PONT_FLIP_TABLEAU 5
-#define PONT_TO_FUND      10
-#define PONT_FUND_TABLEAU -15
-#define PONT_FLIP_ESTOQUE -50
-#define PONT_WIN          300
+#define ARQ_LEADERBOARD   "top scores" // Nome do arquivo das pontuações
+#define PONT_DESC_TABLEAU 5            // Descarte -> Tableau
+#define PONT_FLIP_TABLEAU 5            // revelar carta tableau
+#define PONT_TO_FUND      10           // Mover para a fundação
+#define PONT_FUND_TABLEAU -15          // Fundação -> Tableau
+#define PONT_FLIP_ESTOQUE -50          // Reiniciar o estoque
+#define PONT_WIN          300          // Vencer
 
-#define TELA_INICIO      0
-#define TELA_JOGO        1
-#define TELA_LEADERBOARD 2
-#define TELA_GET_DATA    3
-#define TELA_PAUSE       4
+#define TELA_INICIO      0 // Tela do menu principal
+#define TELA_JOGO        1 // Tela principal
+#define TELA_LEADERBOARD 2 // Tela das pontuações
+#define TELA_GET_DATA    3 // Tela de pegar o nome do jogador e do arquivo
+#define TELA_PAUSE       4 // Tela de pause
 
 #define Q_ES 218 // Quina esquerda superior
 #define Q_EI 192 // Quina esquerda inferior
@@ -35,6 +35,32 @@
 #define Y_CABECALHOS          6
 #define Y_TABLEAU             9
 
+/**
+ * @brief Função que inicializa toda a struct
+ * 
+ * @param jogo Instância atual do jogo
+ */
+void setup(Jogo *jogo) {
+  jogo->telaAtual = TELA_INICIO;
+  jogo->pos_estoque = 0; // posição do estoque começa em 0
+  jogo->cursor.x = 0;
+  jogo->cursor.y = 0;
+  jogo->score = 0;
+  jogo->pos_inicial.x = 0;
+  jogo->pos_inicial.y = 0;
+  jogo->vitoria = false;
+  cls();
+  hidecursor();
+  saveDefaultColor();
+  iniciaCartas(jogo);
+}
+
+/**
+ * @brief Função que salva o estado atual do jogo em um arquivo.
+ * 
+ * @param jogo Instância atual do jogo
+ * @param nome Nome do arquivo a ser salvo o jogo
+ */
 void salvaJogo(Jogo *jogo, char nome[30]) {
   FILE *arq;
   arq = fopen(nome, "wb");
@@ -42,16 +68,31 @@ void salvaJogo(Jogo *jogo, char nome[30]) {
   fclose(arq);
 }
 
-void carregaJogo(Jogo *jogo, char nome[30]) {
+/**
+ * @brief Função que carrega o jogo a partir de um arquivo.
+ * 
+ * @param jogo Instância atual do jogo
+ * @param nome Nome do arquivo a ser salvo o jogo
+ * @return true Caso o arquivo exista
+ * @return false Caso o arquivo dê erro na leitura
+ */
+bool carregaJogo(Jogo *jogo, char nome[30]) {
   FILE *arq;
   arq = fopen(nome, "rb");
-  if (arq == NULL) return;
+  if (arq == NULL) return false;
 
   fread(jogo, sizeof(Jogo), 1, arq);
   fclose(arq);
+  return true;
 }
 
-int printaScores(int x, int y) {
+/**
+ * @brief Função que lê o arquivo de pontuações e exibe-as.
+ * 
+ * @param x Offset X da lista de pontuações
+ * @param y Offset Y da lista de pontuações
+ */
+void printaScores(int x, int y) {
   FILE *arq;
   char listNomes[10][30];
   char textoLinha[50];
@@ -67,7 +108,6 @@ int printaScores(int x, int y) {
   if (arq == NULL) {
     gotoxy(x - 12, y);
     printf("Nao ha nenhuma pontuacao");
-    return -1;
   };
 
   while (fgets(textoLinha, 50, arq)) {
@@ -76,7 +116,7 @@ int printaScores(int x, int y) {
     tempPontos = atoi(strtok(NULL, " - "));
 
     for (int i = 0; i < 10; i++) {
-      if (tempPontos > listPontos[i]) {
+      if (tempPontos >= listPontos[i]) {
         for (int aux = 9; aux > i; aux--) {
           listPontos[aux] = listPontos[aux - 1];
           strcpy(listNomes[aux], listNomes[aux - 1]);
@@ -100,6 +140,11 @@ int printaScores(int x, int y) {
   fclose(arq);
 }
 
+/**
+ * @brief Função que salva a pontuação atual no arquivo padrão.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void salvaScore(Jogo *jogo) {
   FILE *arq;
   arq = fopen(ARQ_LEADERBOARD, "a+");
@@ -108,6 +153,12 @@ void salvaScore(Jogo *jogo) {
   fclose(arq);
 }
 
+/**
+ * @brief Função que modifica a pontuação atual do jogador.
+ * 
+ * @param jogo Instância atual do jogo
+ * @param pontuacao Pontuação a ser somada ou subtraida
+ */
 void somaScore(Jogo *jogo, int pontuacao) {
   if ((jogo->score + pontuacao) < 0) jogo->score = 0;
   else

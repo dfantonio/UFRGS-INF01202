@@ -4,6 +4,13 @@
 #ifndef VALIDATE_H // Esses dois ifs servem pra permitir que esse aquivo seja importa múltiplas vezes
 #define VALIDATE_H
 
+/**
+ * @brief Localiza a posição da última carta em uma certa coluna do tableau.
+ * 
+ * @param jogo Instância atual do jogo
+ * @param x Coluna do tableau
+ * @return int Linha da última carta
+ */
 int encontraUltimaCartaCol(Jogo *jogo, int x) {
   for (int counter = TAM_TABLEAU_L - 1; counter >= 0; counter--) {
     if (jogo->tableau[counter][x].numero != 0) {
@@ -12,6 +19,13 @@ int encontraUltimaCartaCol(Jogo *jogo, int x) {
   }
 }
 
+/**
+ * @brief Função que verifica se a carta deve ser virada e aumenta o score.
+ * 
+ * @param jogo Instância atual do jogo
+ * @param x Coluna do tableau
+ * @param y Linha do tableau
+ */
 void revelaTableau(Jogo *jogo, int x, int y) {
   if (!jogo->tableau[y][x].visivel && y >= 0) {
     jogo->tableau[y][x].visivel = true;
@@ -19,6 +33,11 @@ void revelaTableau(Jogo *jogo, int x, int y) {
   }
 }
 
+/**
+ * @brief Verifica se o jogador ganhou.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void verificaVitoria(Jogo *jogo) {
   int win = 0;
 
@@ -34,6 +53,17 @@ void verificaVitoria(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Função que valida todas as movimentações de cartas e as executa.
+ * Essa função é responsável por validar todos os tipos de movimentos: \n
+ *  Troca dentro do tableau \n
+ *  Descarte -> Tableau \n
+ *  Fundação -> Tableau \n
+ *  Tableau -> Fundação \n
+ *  Descarte -> Fundação
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void trocaCartas(Jogo *jogo) {
   int posX = jogo->pos_inicial.x, posY = jogo->pos_inicial.y; // Origem da troca
   int cursorX = jogo->cursor.x, cursorY = jogo->cursor.y;     // Destino da troca
@@ -187,8 +217,12 @@ void trocaCartas(Jogo *jogo) {
 }
 
 /**
- * Função que verifica se a movimentação do cursor é válida e faz alguns
- * tratamentos para casos especiais
+ * @brief Função que verifica se a movimentação do cursor é válida e faz alguns
+ * tratamentos para casos especiais.
+ * 
+ * @param jogo Instância atual do jogo
+ * @param x delta X de movimentação 
+ * @param y delta Y de movimentação 
  */
 void movimentaCursor(Jogo *jogo, int x, int y) {
   int curX = jogo->cursor.x;

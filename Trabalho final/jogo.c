@@ -1,5 +1,3 @@
-#include "debug.h"
-#include "funcoes.h"
 #include "start.h"
 #include <stdio.h>
 #include <stdlib.h>
