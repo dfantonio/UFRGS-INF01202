@@ -8,5 +8,6 @@ var structjogo =
     [ "pos_inicial", "structjogo.html#a4249ad9ab0b15bd3290a101f94f4913e", null ],
     [ "score", "structjogo.html#aef160b7437d94056f1dc59646cd5b87d", null ],
     [ "tableau", "structjogo.html#a5be8bce88adcd45ed2b014bba5fc4dfc", null ],
-    [ "telaAtual", "structjogo.html#a2425e9ee37581f4ba18e2be8d1665627", null ]
+    [ "telaAtual", "structjogo.html#a2425e9ee37581f4ba18e2be8d1665627", null ],
+    [ "vitoria", "structjogo.html#a3db14c17eaa0663521802724bbcaf86e", null ]
 ];

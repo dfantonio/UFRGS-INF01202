@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "Jogo de paciência", "index.html", [
-    [ "Diretório com todas as informações sobre o trabalho final da cadeira INF01202", "md__r_e_a_d_m_e.html", null ],
+    [ "Repositório do trabalho final da cadeira INF01202", "md__r_e_a_d_m_e.html", null ],
     [ "Estruturas de Dados", "annotated.html", [
       [ "Estruturas de Dados", "annotated.html", "annotated_dup" ],
       [ "Campos de Dados", "functions.html", [

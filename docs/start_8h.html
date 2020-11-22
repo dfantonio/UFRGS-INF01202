@@ -95,14 +95,19 @@ $(document).ready(function(){initNavTree('start_8h.html',''); initResizable(); }
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Funções</h2></td></tr>
 <tr class="memitem:a4d0c2af0e54874aa896fea40b8b30c20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="start_8h.html#a4d0c2af0e54874aa896fea40b8b30c20">embaralha</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:a4d0c2af0e54874aa896fea40b8b30c20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função responsável por embaralhar o baralho.  <a href="start_8h.html#a4d0c2af0e54874aa896fea40b8b30c20">Mais...</a><br /></td></tr>
 <tr class="separator:a4d0c2af0e54874aa896fea40b8b30c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fe1244791a5b77c6d3808a1fe92ae7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="start_8h.html#a7fe1244791a5b77c6d3808a1fe92ae7b">criaBaralho</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:a7fe1244791a5b77c6d3808a1fe92ae7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função que cria todas as 52 cartas do baralho.  <a href="start_8h.html#a7fe1244791a5b77c6d3808a1fe92ae7b">Mais...</a><br /></td></tr>
 <tr class="separator:a7fe1244791a5b77c6d3808a1fe92ae7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adee4953b6c47e4079a27d34c0358de30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="start_8h.html#adee4953b6c47e4079a27d34c0358de30">distribuiTableau</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:adee4953b6c47e4079a27d34c0358de30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Posição que popula todo o Tableau.  <a href="start_8h.html#adee4953b6c47e4079a27d34c0358de30">Mais...</a><br /></td></tr>
 <tr class="separator:adee4953b6c47e4079a27d34c0358de30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad890d3e1af9d30c7d65d962dec5f571c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="start_8h.html#ad890d3e1af9d30c7d65d962dec5f571c">zeraFundacao</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:ad890d3e1af9d30c7d65d962dec5f571c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função que zera todas as posições da fundação.  <a href="start_8h.html#ad890d3e1af9d30c7d65d962dec5f571c">Mais...</a><br /></td></tr>
 <tr class="separator:ad890d3e1af9d30c7d65d962dec5f571c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82f138008fa1f2096381cc58e5e6cf8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="start_8h.html#a82f138008fa1f2096381cc58e5e6cf8b">iniciaCartas</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:a82f138008fa1f2096381cc58e5e6cf8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função que centraliza todas as configurações iniciais das cartas.  <a href="start_8h.html#a82f138008fa1f2096381cc58e5e6cf8b">Mais...</a><br /></td></tr>
 <tr class="separator:a82f138008fa1f2096381cc58e5e6cf8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Funções</h2>
@@ -121,6 +126,12 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -139,6 +150,13 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Essa função preenche todas as cartas do tableau com o número 0 (para que sejam valores inválidos) e então pega cartas do baralho (estoque) para popular as primeiras linhas.</p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -157,6 +175,12 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -175,6 +199,12 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -193,6 +223,12 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

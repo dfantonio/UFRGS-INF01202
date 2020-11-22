@@ -13,6 +13,7 @@ var interface_8h =
     [ "renderizaEstoque", "interface_8h.html#a21c2513ee52c13543298ae8aaf2bc4a3", null ],
     [ "renderizaFundacao", "interface_8h.html#ae9028100fdf887e3b08d87af9279592e", null ],
     [ "renderizaGetData", "interface_8h.html#aa4dad6e3efbb4c3794c4faa7aedb632b", null ],
+    [ "renderizaLeaderboard", "interface_8h.html#a9f2dd2cafedec1be617e4c6373d0baf4", null ],
     [ "renderizaMesa", "interface_8h.html#acff94dbce413e3fe486a26f11f0c407f", null ],
     [ "renderizaPause", "interface_8h.html#a91a385a68e7e5627541cf30f11d4c518", null ],
     [ "renderizaTableau", "interface_8h.html#ab70cfcdc22d5044cd77a988802f791b5", null ],

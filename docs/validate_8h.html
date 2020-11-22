@@ -95,10 +95,16 @@ $(document).ready(function(){initNavTree('validate_8h.html',''); initResizable()
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Funções</h2></td></tr>
 <tr class="memitem:a9f61f3e79c4ea4c5a14e675498be82be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validate_8h.html#a9f61f3e79c4ea4c5a14e675498be82be">encontraUltimaCartaCol</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>, int x)</td></tr>
+<tr class="memdesc:a9f61f3e79c4ea4c5a14e675498be82be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Localiza a posição da última carta em uma certa coluna do tableau.  <a href="validate_8h.html#a9f61f3e79c4ea4c5a14e675498be82be">Mais...</a><br /></td></tr>
 <tr class="separator:a9f61f3e79c4ea4c5a14e675498be82be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9760f4b18e1f102853a4a7971e301595"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validate_8h.html#a9760f4b18e1f102853a4a7971e301595">revelaTableau</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>, int x, int y)</td></tr>
+<tr class="memdesc:a9760f4b18e1f102853a4a7971e301595"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função que verifica se a carta deve ser virada e aumenta o score.  <a href="validate_8h.html#a9760f4b18e1f102853a4a7971e301595">Mais...</a><br /></td></tr>
 <tr class="separator:a9760f4b18e1f102853a4a7971e301595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad09788ff8a1adca859b01deb2fbf2347"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validate_8h.html#ad09788ff8a1adca859b01deb2fbf2347">verificaVitoria</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:ad09788ff8a1adca859b01deb2fbf2347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica se o jogador ganhou.  <a href="validate_8h.html#ad09788ff8a1adca859b01deb2fbf2347">Mais...</a><br /></td></tr>
+<tr class="separator:ad09788ff8a1adca859b01deb2fbf2347"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af05a18c804331cf3299d675b195477cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validate_8h.html#af05a18c804331cf3299d675b195477cb">trocaCartas</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>)</td></tr>
+<tr class="memdesc:af05a18c804331cf3299d675b195477cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função que valida todas as movimentações de cartas e as executa.  <a href="validate_8h.html#af05a18c804331cf3299d675b195477cb">Mais...</a><br /></td></tr>
 <tr class="separator:af05a18c804331cf3299d675b195477cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae55a90d765011d61258b12f7f02afb17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validate_8h.html#ae55a90d765011d61258b12f7f02afb17">movimentaCursor</a> (<a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *<a class="el" href="structjogo.html">jogo</a>, int x, int y)</td></tr>
 <tr class="memdesc:ae55a90d765011d61258b12f7f02afb17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função que verifica se a movimentação do cursor é válida e faz alguns tratamentos para casos especiais.  <a href="validate_8h.html#ae55a90d765011d61258b12f7f02afb17">Mais...</a><br /></td></tr>
@@ -130,6 +136,14 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+    <tr><td class="paramname">x</td><td>Coluna do tableau </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>int Linha da última carta </dd></dl>
 
 </div>
 </div>
@@ -164,8 +178,14 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Função que verifica se a movimentação do cursor é válida e faz alguns tratamentos para casos especiais. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+    <tr><td class="paramname">x</td><td>delta X de movimentação </td></tr>
+    <tr><td class="paramname">y</td><td>delta Y de movimentação </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -200,6 +220,14 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+    <tr><td class="paramname">x</td><td>Coluna do tableau </td></tr>
+    <tr><td class="paramname">y</td><td>Linha do tableau </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -218,6 +246,42 @@ Funções</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Essa função é responsável por validar todos os tipos de movimentos: <br  />
+ Troca dentro do tableau <br  />
+ Descarte -&gt; Tableau <br  />
+ Fundação -&gt; Tableau <br  />
+ Tableau -&gt; Fundação <br  />
+ Descarte -&gt; Fundação</p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad09788ff8a1adca859b01deb2fbf2347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad09788ff8a1adca859b01deb2fbf2347">&#9670;&nbsp;</a></span>verificaVitoria()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void verificaVitoria </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_8h.html#ab8a954976e68855a997a76d68a7fc85e">Jogo</a> *&#160;</td>
+          <td class="paramname"><em>jogo</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jogo</td><td>Instância atual do jogo </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
