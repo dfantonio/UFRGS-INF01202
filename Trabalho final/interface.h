@@ -11,6 +11,11 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+/**
+ * @brief Função principal que gerencia a tela atual do jogador.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void rodaJogo(Jogo *jogo) {
   while (1) {
 
@@ -47,6 +52,11 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Renderiza a tela das pontuações máximas.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaLeaderboard(Jogo *jogo) {
   criaQuadrado(74, 25);
   gotoxy(14, 3);
@@ -67,6 +77,11 @@ void renderizaLeaderboard(Jogo *jogo) {
   jogo->telaAtual = TELA_INICIO;
 }
 
+/**
+ * @brief Renderiza a tela de pause.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaPause(Jogo *jogo) {
   criaQuadrado(74, 30);
   printMenuOption("1 - Salvar e Sair", 25, 5);
@@ -108,6 +123,11 @@ void renderizaPause(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Renderiza a tela que pega alguns dados.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaGetData(Jogo *jogo) {
   criaQuadrado(74, 30);
   printMenuOption("1 - Novo Jogo", 25, 5);
@@ -150,6 +170,11 @@ void renderizaGetData(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Chama a função que cria a mesa e controla as teclas pressionadas.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaMesa(Jogo *jogo) {
   while (jogo->vitoria == false) {
     if (kbhit()) {
@@ -185,6 +210,12 @@ void renderizaMesa(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Função que cria o quadrado de borda das telas.
+ * 
+ * @param x largura do quadrado
+ * @param y altura do quadrado
+ */
 void criaQuadrado(int x, int y) {
   printf("%c", Q_ES);
   for (int i = 0; i < (x - 2); i++)
@@ -203,6 +234,11 @@ void criaQuadrado(int x, int y) {
   printf("%c", Q_DI);
 }
 
+/**
+ * @brief Renderiza os labels da mesa
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void aplicaLabels(Jogo *jogo) {
   gotoxy(4, Y_INFORMACOES_JOGADOR);
   printf("Jogador: %s", jogo->jogador);
@@ -220,10 +256,22 @@ void aplicaLabels(Jogo *jogo) {
   printf("Tableau");
 }
 
+/**
+ * @brief Verifica se a cor da carta é vermelha ou preta.
+ * 
+ * @param naipe Valor numérico do naipe
+ * @return int Código da cor preto ou vermelho
+ */
 int getCorCarta(int naipe) {
   return naipe % 2 ? RED : BLACK;
 }
 
+/**
+ * @brief Verifica qual o símbolo do naipe.
+ * 
+ * @param naipe Valor numérico do naipe
+ * @return char Código ASCII do naipe
+ */
 char getNaipeCarta(int naipe) {
   switch (naipe) {
   case COPAS:
@@ -240,6 +288,14 @@ char getNaipeCarta(int naipe) {
   }
 }
 
+/**
+ * @brief Função que renderiza uma carta.
+ * Possui validações para ver qual a cor do naipe e se está virada para cima ou para baixo.
+ * 
+ * @param carta Struct da carta
+ * @param x Coordenada inicial X
+ * @param y Coordenada inicial Y
+ */
 void renderizaCarta(Carta *carta, int x, int y) {
   if (carta->visivel) {
     gotoxy(x, y);
@@ -276,6 +332,11 @@ void renderizaCarta(Carta *carta, int x, int y) {
   resetColor();
 }
 
+/**
+ * @brief Função que renderiza o tableau.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaTableau(Jogo *jogo) {
   for (int i = 0; i < TAM_TABLEAU_L; i++) {
     for (int j = 0; j < TAM_TABLEAU_C; j++) {
@@ -285,6 +346,11 @@ void renderizaTableau(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Função que renderiza o estoque.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaEstoque(Jogo *jogo) {
   int descarte = jogo->pos_estoque - 1;
   int ncartas = 0;
@@ -314,6 +380,11 @@ void renderizaEstoque(Jogo *jogo) {
   if (descarte >= 0) renderizaCarta(&jogo->estoque[descarte], 14, 6);                                            // renderiza o descarte atualizado
 }
 
+/**
+ * @brief Função que renderiza a fundação.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaFundacao(Jogo *jogo) {
   int index;
   for (int col = 0; col < TAM_FUNDACAO_C; col++) {
@@ -332,6 +403,13 @@ void renderizaFundacao(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Função que renderiza um cursor em uma dada posição.
+ *  
+ * @param x Coordenada X
+ * @param y Coordenada y
+ * @param cor Cor do cursor
+ */
 void renderizaCursorTroca(int x, int y, int cor) {
   gotoxy(x, y);
   setColor(cor);
@@ -339,6 +417,13 @@ void renderizaCursorTroca(int x, int y, int cor) {
   resetColor();
 }
 
+/**
+ * @brief Função que gerencia a posição atual atual do cursor.
+ * A função também verifica se há uma carta selecionada, para então
+ * desenhar um cursor amarelo na posição.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void renderizaCursor(Jogo *jogo) {
   int x = jogo->cursor.x;
   int y = jogo->cursor.y;
@@ -375,6 +460,12 @@ void renderizaCursor(Jogo *jogo) {
   }
 }
 
+/**
+ * @brief Função que renderiza a mesa de jogo.
+ * Essa função chama todas as funções que compõem a tela de jogo.
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void criaInterfaceMesa(Jogo *jogo) {
   criaQuadrado(74, 30);
   renderizaEstoque(jogo);
@@ -384,6 +475,13 @@ void criaInterfaceMesa(Jogo *jogo) {
   aplicaLabels(jogo);
 }
 
+/**
+ * @brief Função que printa uma opção de seleção
+ * 
+ * @param texto Descritivo da opção
+ * @param startX Coordenada inicial X
+ * @param startY Coordenada inicial Y
+ */
 void printMenuOption(char *texto, int startX, int startY) {
   int tamanho = strlen(texto) + 4;
   for (int linha = 0; linha < tamanho; linha++) {
@@ -417,6 +515,11 @@ void printMenuOption(char *texto, int startX, int startY) {
   }
 }
 
+/**
+ * @brief Renderiza o menu principal
+ * 
+ * @param jogo Instância atual do jogo
+ */
 void printMainMenu(Jogo *jogo) {
   gotoxy(7, 1);
   printf(" _______                 _    _                     _          \n");
