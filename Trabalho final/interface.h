@@ -11,28 +11,6 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#define TELA_INICIO      0
-#define TELA_JOGO        1
-#define TELA_LEADERBOARD 2
-#define TELA_GET_DATA    3
-#define TELA_PAUSE       4
-
-#define Q_ES 218 // Quina esquerda superior
-#define Q_EI 192 // Quina esquerda inferior
-#define Q_DS 191 // Quina direita superior
-#define Q_DI 217 // Quina direita inferior
-#define T_HO 196 // Traço horizontal
-#define T_VE 179 // Traço vertical
-
-#define CIMA     'w'
-#define BAIXO    's'
-#define DIREITA  'd'
-#define ESQUERDA 'a'
-
-#define Y_INFORMACOES_JOGADOR 3
-#define Y_CABECALHOS          6
-#define Y_TABLEAU             9
-
 void rodaJogo(Jogo *jogo) {
   while (1) {
 
@@ -59,7 +37,8 @@ void rodaJogo(Jogo *jogo) {
       break;
 
     case TELA_LEADERBOARD:
-      printf("to nos scores\n");
+      cls();
+      renderizaLeaderboard(jogo);
       break;
 
     default:
@@ -68,10 +47,31 @@ void rodaJogo(Jogo *jogo) {
   }
 }
 
+void renderizaLeaderboard(Jogo *jogo) {
+  criaQuadrado(74, 25);
+  gotoxy(14, 3);
+  printf(" __        ___                           ");
+  gotoxy(14, 4);
+  printf(" \\ \\      / (_)_ __  _ __   ___ _ __ ___ ");
+  gotoxy(14, 5);
+  printf("  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__/ __|");
+  gotoxy(14, 6);
+  printf("   \\ V  V / | | | | | | | |  __/ |  \\__ \\");
+  gotoxy(14, 7);
+  printf("    \\_/\\_/  |_|_| |_|_| |_|\\___|_|  |___/");
+
+  printaScores(35, 10);
+
+  gotoxy(14, 23);
+  system("pause");
+  jogo->telaAtual = TELA_INICIO;
+}
+
 void renderizaPause(Jogo *jogo) {
   criaQuadrado(74, 30);
   printMenuOption("1 - Salvar e Sair", 25, 5);
   printMenuOption("2 - Sair", 30, 8);
+  printMenuOption("3 - Continuar", 27, 11);
 
   while (1) {
     if (kbhit()) {
@@ -93,7 +93,12 @@ void renderizaPause(Jogo *jogo) {
         return;
 
       case '2':
+        salvaScore(jogo);
         jogo->telaAtual = TELA_INICIO;
+        return;
+
+      case '3':
+        jogo->telaAtual = TELA_JOGO;
         return;
 
       default:
@@ -119,6 +124,7 @@ void renderizaGetData(Jogo *jogo) {
         printf("Nome do jogador: ");
         fflush(stdin);
         fgets(jogo->jogador, 30, stdin);
+        jogo->jogador[strcspn(jogo->jogador, "\n")] = 0;
         jogo->telaAtual = TELA_JOGO;
         return;
 
@@ -145,7 +151,7 @@ void renderizaGetData(Jogo *jogo) {
 }
 
 void renderizaMesa(Jogo *jogo) {
-  while (1) {
+  while (jogo->vitoria == false) {
     if (kbhit()) {
       char k = getkey();
       switch (tolower(k)) {
@@ -412,15 +418,21 @@ void printMenuOption(char *texto, int startX, int startY) {
 }
 
 void printMainMenu(Jogo *jogo) {
+  gotoxy(7, 1);
   printf(" _______                 _    _                     _          \n");
+  gotoxy(7, 2);
   printf("|_   __ \\               (_)  / \\                   (_)         \n");
+  gotoxy(7, 3);
   printf("  | |__) |,--.   .---.  __  .---.  _ .--.   .---.  __   ,--.   \n");
+  gotoxy(7, 4);
   printf("  |  ___/`'_\\ : / /'`\\][  |/ /__\\\\[ `.-. | / /'`\\][  | `'_\\ :  \n");
+  gotoxy(7, 5);
   printf(" _| |_   // | |,| \\__.  | || \\__., | | | | | \\__.  | | // | |, \n");
+  gotoxy(7, 6);
   printf("|_____|  \\'-;__/'.___.'[___]'.__.'[___||__]'.___.'[___]\\'-;__/ \n\n\n");
-  printMenuOption("(1) Jogar", 16, 10);
-  printMenuOption("(2) Recordes", 32, 10);
-  printMenuOption("(3) Sair", 25, 13);
+  printMenuOption("(1) Jogar", 21, 10);
+  printMenuOption("(2) Recordes", 37, 10);
+  printMenuOption("(3) Sair", 30, 13);
 
   while (1) {
     if (kbhit()) {

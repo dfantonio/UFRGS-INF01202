@@ -19,6 +19,21 @@ void revelaTableau(Jogo *jogo, int x, int y) {
   }
 }
 
+void verificaVitoria(Jogo *jogo) {
+  int win = 0;
+
+  for (int i = 0; i < 4; i++) { // Verifica se os 4 reis estão no estoque
+    if (jogo->fundacao[12][i].numero == 13) win++;
+  }
+
+  if (win == 4) {
+    jogo->vitoria = true;
+    somaScore(jogo, PONT_WIN);
+    salvaScore(jogo);
+    jogo->telaAtual = TELA_LEADERBOARD;
+  }
+}
+
 void trocaCartas(Jogo *jogo) {
   int posX = jogo->pos_inicial.x, posY = jogo->pos_inicial.y; // Origem da troca
   int cursorX = jogo->cursor.x, cursorY = jogo->cursor.y;     // Destino da troca
@@ -129,6 +144,7 @@ void trocaCartas(Jogo *jogo) {
         }
       }
 
+      verificaVitoria(jogo);
       jogo->pos_inicial.x = 0;
       jogo->pos_inicial.y = 0;
       return;
@@ -154,12 +170,13 @@ void trocaCartas(Jogo *jogo) {
         const int isSameNaipe = jogo->fundacao[lastPosition][cursorX - 2].naipe == jogo->estoque[descarte].naipe;
 
         if (isSequence && isSameNaipe) {
-          jogo->fundacao[lastPosition][cursorX - 2] = jogo->estoque[descarte];
+          jogo->fundacao[lastPosition + 1][cursorX - 2] = jogo->estoque[descarte];
           jogo->estoque[descarte].numero = 0;
           somaScore(jogo, PONT_TO_FUND);
         }
       }
 
+      verificaVitoria(jogo);
       jogo->pos_inicial.x = 0;
       jogo->pos_inicial.y = 0;
       return;
