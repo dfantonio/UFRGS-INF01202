@@ -4,8 +4,7 @@
 #include <time.h>
 
 void embaralha(Jogo *jogo) {
-  // srand(time(NULL));
-  srand(3);
+  srand(time(NULL));
   int random;
   for (int i = 0; i < 52; i++) {
     random = (rand() % 52);
